@@ -179,15 +179,35 @@
 
 ![image-20220921020449856](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921020449856.png)
 
-然后点击add people，输入用户名进行查找
+然后点击Add people，输入用户名进行查找
 
+![image-20220921020712547](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921020712547.png)
 
+----
 
-将邀请链接发给团队内成员，成员复制后在gitlab中搜索，在如下页面中同意邀请。
+![image-20220921021133542](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921021133542.png)
+
+----
+
+![image-20220921020919604](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921020919604.png)
+
+将邀请链接Pending Invite发给团队内成员，成员复制后在gitlab中搜索，在如下页面中同意邀请。
 
 ![image-20220921015542493](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921015542493.png)
 
+此后再push，相比上次就会push成功
+
+![image-20220921021112033](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921021112033.png)
+
 ### 2.6 团队间协作
+
+外部人员修改时通过链接或者查找锁定原代码，点右上角fock叉一份到自己的仓库
+
+修改-->add-->commit-->push  到自己仓库后，点上方的pull request
+
+之后create request后编辑好注释和留言后完成
+
+内部管理者可以看到request，经过审查后合并到本仓库
 
 ![image-20220920212501194](D:\Typora\Notes\imgs\Git\image-20220920212501194.png)
 
