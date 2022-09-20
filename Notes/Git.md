@@ -161,6 +161,32 @@
 
 ![image-20220920212703205](D:\Typora\Notes\imgs\Git\image-20220920212703205.png)
 
+
+
+虽然任意人有读的权限，即可以clone下来
+
+![image-20220921015855516](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921015855516.png)
+
+但是如果想要push，就会报如下错误
+
+![image-20220921015816187](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921015816187.png)
+
+因此需要给团队内其他成员设置权限，步骤如下
+
+![image-20220921020239674](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921020239674.png)
+
+------
+
+![image-20220921020449856](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921020449856.png)
+
+然后点击add people，输入用户名进行查找
+
+
+
+将邀请链接发给团队内成员，成员复制后在gitlab中搜索，在如下页面中同意邀请。
+
+![image-20220921015542493](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921015542493.png)
+
 ### 2.6 团队间协作
 
 ![image-20220920212501194](D:\Typora\Notes\imgs\Git\image-20220920212501194.png)
