@@ -111,7 +111,7 @@
 
 ---------
 
-查看公钥
+ public class FileTest {    /*    File 是文件和目录路径名的抽象表示形式，它不能完成文件的读和写     */    public static void main(String[] args) {        File f1 = new File("D:\\file");        System.out.println(f1.exists());        // 若不存在则创建新的文件        if(f1.exists() == false){            try {                f1.createNewFile();            } catch (IOException e) {                e.printStackTrace();            }        }​        // 若不存在则创建新目录        if (f1.exists() == false){            f1.mkdir();        }​        // 获取父路径        File f2 = new File("C:\\Users\\Sherry\\Desktop\\备忘");        String parentPath = f2.getParent();        System.out.println(parentPath);        // 绝对路径        String absolutePath = f2.getAbsolutePath();        System.out.println(absolutePath);​        // 获取当前目录下的所有子文件        File f = new File("C:\\Users\\Sherry\\Desktop");        File[] files = f.listFiles();        for (File file: files) {            System.out.println(file.getName());        }                // 判断是否是目录        System.out.println(f1.isDirectory());        // 判断是否是文件        System.out.println(f2.isFile());                // 获取文件的最后一次修改时间        long haomiao = f1.lastModified();        Date lastTime = new Date(haomiao);        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");        String tine = sdf.format(lastTime);        System.out.println(tine);    }}java
 
 ![image-20220920213107698](D:\Typora\Notes\imgs\Git\image-20220920213107698.png)
 
@@ -138,6 +138,10 @@
 ### 2.5 团队内协作
 
 逻辑关系
+
+团队内协作
+
+![image-20220921012154193](C:\Users\apple\Documents\Notes\imgs\Git\image-20220921012154193.png)
 
 ![image-20220920214518401](D:\Typora\Notes\imgs\Git\image-20220920214518401.png)
 
