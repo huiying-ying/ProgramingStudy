@@ -6,6 +6,10 @@
 
 ![img](imgs\Git\OPG@$MKX[]H]L}{R$OUP[}3.png)
 
+#### 签名
+
+![image-20220922003809885](imgs/Git/image-20220922003809885.png)
+
 #### 附：Vim操作
 
 |      |     指令      |   操作   |
@@ -16,6 +20,10 @@
 |  4   |      wq       |   保存   |
 
 另，windows里换行符是LF，Linux里换行符是CRLF
+
+#### 附：Linux查看隐藏文件
+
+ll -a
 
 ### 1.2 版本
 
