@@ -39,6 +39,14 @@ ll -a
 
 ![image-20220920213450306](imgs\Git\image-20220920213450306.png)
 
+当在本地创建了新的分支，而远程库还没有时，需要以下代码（以新分支hot-fix为例）
+
+```
+git push --set-upstream origin hot-fix
+```
+
+合并分支时，是处于master或者main的分支中，使用 git merge hot-fix 命令将分支hot-fix合并到master。
+
 ## 2 Github
 
 #### 附--Github访问方法
