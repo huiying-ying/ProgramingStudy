@@ -4,39 +4,39 @@
 
 ### 1.1 超链接
 
-![image-20220516212722236](imgs\HTMLandCSS\image-20220516212722236.png)
+![image-20220516212722236](imgs\CSS\image-20220516212722236.png)
 
-![image-20220516213818433](imgs\HTMLandCSS\image-20220516213818433.png)
+![image-20220516213818433](imgs\CSS\image-20220516213818433.png)
 
-![image-20220516213524570](imgs\HTMLandCSS\image-20220516213524570.png)
+![image-20220516213524570](imgs\CSS\image-20220516213524570.png)
 
-![image-20220516213651243](imgs\HTMLandCSS\image-20220516213651243.png)
+![image-20220516213651243](imgs\CSS\image-20220516213651243.png)
 
 锚点链接
 
-![image-20220516214151541](imgs\HTMLandCSS\image-20220516214151541.png)
+![image-20220516214151541](imgs\CSS\image-20220516214151541.png)
 
 相应跳转的部分标识为
 
-![image-20220516214223151](imgs\HTMLandCSS\image-20220516214223151.png)
+![image-20220516214223151](imgs\CSS\image-20220516214223151.png)
 
 ### 1.2 特殊字符
 
-![image-20220516215350872](imgs\HTMLandCSS\image-20220516215350872.png)
+![image-20220516215350872](imgs\CSS\image-20220516215350872.png)
 
 ### 1.3 表格属性
 
-![image-20220517134223708](imgs\HTMLandCSS\image-20220517134223708.png)
+![image-20220517134223708](imgs\CSS\image-20220517134223708.png)
 
 实际代码为
 
-![image-20220517135013460](C:\Users\Sherry\AppData\Roaming\Typora\typora-user-images\image-20220517135013460.png)
+![image-20220517135013460](imgs/CSS/image-20220517135013460.png)
 
 ### 1.4 列表
 
 #### 1.4.1 无序列表
 
-![image-20220517164324736](imgs\HTMLandCSS\image-20220517164324736.png)
+![image-20220517164324736](imgs\CSS\image-20220517164324736.png)
 
 ##### 去掉list前面的小圆点
 
@@ -46,21 +46,21 @@ list-style:none
 
 #### 1.4.2 自定义列表
 
-![image-20220517164434370](imgs\HTMLandCSS\image-20220517164434370.png)
+![image-20220517164434370](imgs\CSS\image-20220517164434370.png)
 
 ### 1.5 表单标签
 
 #### 1.5.1 表单域
 
-![image-20220517164601425](imgs\HTMLandCSS\image-20220517164601425.png)
+![image-20220517164601425](imgs\CSS\image-20220517164601425.png)
 
 #### 1.5.2 input 表单
 
-![image-20220517161249952](imgs\HTMLandCSS\image-20220517161249952.png)
+![image-20220517161249952](imgs\CSS\image-20220517161249952.png)
 
 ##### type属性值
 
-![image-20220517164150640](imgs\HTMLandCSS\image-20220517164150640.png)
+![image-20220517164150640](imgs\CSS\image-20220517164150640.png)
 
 ![image-20220517164034327](C:\Users\Sherry\AppData\Roaming\Typora\typora-user-images\image-20220517164034327.png)
 
@@ -68,15 +68,15 @@ list-style:none
 
 ##### label 标签
 
-![image-20220517164907721](imgs\HTMLandCSS\image-20220517164907721.png)
+![image-20220517164907721](imgs\CSS\image-20220517164907721.png)
 
 #### 1.5.3 select 表单
 
-![image-20220517170137027](imgs\HTMLandCSS\image-20220517170137027.png)
+![image-20220517170137027](imgs\CSS\image-20220517170137027.png)
 
 #### 1.5.4 textarea 表单
 
-![image-20220517170425424](imgs\HTMLandCSS\image-20220517170425424.png)
+![image-20220517170425424](imgs\CSS\image-20220517170425424.png)
 
 ## 2 CSS
 
@@ -86,7 +86,7 @@ list-style:none
 
 选择器分为**基础选择器**和**复合选择器**两个大类
 
-![image-20220517192327321](imgs\HTMLandCSS\image-20220517192327321.png)
+![image-20220517192327321](imgs\CSS\image-20220517192327321.png)
 
 ##### 标签选择器
 
@@ -96,17 +96,17 @@ list-style:none
 
 
 
-![image-20220517191446487](imgs\HTMLandCSS\image-20220517191446487.png)
+![image-20220517191446487](imgs\CSS\image-20220517191446487.png)
 
 ##### 类选择器
 
 ###### 基础语法
 
-![image-20220517192959549](imgs\HTMLandCSS\image-20220517192959549.png)
+![image-20220517192959549](imgs\CSS\image-20220517192959549.png)
 
 在显示时可指明使用哪一个类
 
-![image-20220517193158020](imgs\HTMLandCSS\image-20220517193158020.png)
+![image-20220517193158020](imgs\CSS\image-20220517193158020.png)
 
 ###### 多类名
 
@@ -116,13 +116,13 @@ list-style:none
 
 相较于类，id最大的不同是**只能调用一次**
 
-![image-20220517200208022](imgs\HTMLandCSS\image-20220517200208022.png)
+![image-20220517200208022](imgs\CSS\image-20220517200208022.png)
 
-![image-20220517200308534](imgs\HTMLandCSS\image-20220517200308534.png)
+![image-20220517200308534](imgs\CSS\image-20220517200308534.png)
 
 ##### 通配符选择器
 
-![image-20220517200749607](imgs\HTMLandCSS\image-20220517200749607.png)
+![image-20220517200749607](imgs\CSS\image-20220517200749607.png)
 
 #### 2.1.2 字体属性
 
@@ -166,9 +166,9 @@ line-height:26px;
 
 主要使用外部引用，行内引用和内部引用适用于样式很少的情况。
 
-![image-20220517212150783](imgs\HTMLandCSS\image-20220517212150783.png)
+![image-20220517212150783](imgs\CSS\image-20220517212150783.png)
 
-![image-20220517212022279](imgs\HTMLandCSS\image-20220517212022279.png)
+![image-20220517212022279](imgs\CSS\image-20220517212022279.png)
 
 #### 2.1.4 Emmet 语法
 
@@ -186,45 +186,45 @@ div + {文字}  生成带有对应内容的div
 
 alt + shift 选中一列中相同的光标处
 
-![image-20220517214913095](imgs\HTMLandCSS\image-20220517214913095.png)
+![image-20220517214913095](imgs\CSS\image-20220517214913095.png)
 
 ##### 快速格式化代码
 
-![image-20220517220251537](imgs\HTMLandCSS\image-20220517220251537.png)
+![image-20220517220251537](imgs\CSS\image-20220517220251537.png)
 
 #### 2.1.5 复合选择器
 
 其中后代、链接、伪链接比较常用
 
-![image-20220518140854080](imgs\HTMLandCSS\image-20220518140854080.png)
+![image-20220518140854080](imgs\CSS\image-20220518140854080.png)
 
 ##### 后代选择器
 
-![image-20220518104959510](imgs\HTMLandCSS\image-20220518104959510.png)
+![image-20220518104959510](imgs\CSS\image-20220518104959510.png)
 
 ##### 子选择器
 
-![image-20220518105456658](imgs\HTMLandCSS\image-20220518105456658.png)
+![image-20220518105456658](imgs\CSS\image-20220518105456658.png)
 
 ##### 并集选择器
 
-![image-20220518105732444](imgs\HTMLandCSS\image-20220518105732444.png)
+![image-20220518105732444](imgs\CSS\image-20220518105732444.png)
 
 ##### 链接伪类选择器
 
-![image-20220518135625817](imgs\HTMLandCSS\image-20220518135625817.png)
+![image-20220518135625817](imgs\CSS\image-20220518135625817.png)
 
-![image-20220518135930653](imgs\HTMLandCSS\image-20220518135930653.png)
+![image-20220518135930653](imgs\CSS\image-20220518135930653.png)
 
 对链接和鼠标经过链接的样式分别进行规定
 
-![image-20220518140539708](imgs\HTMLandCSS\image-20220518140539708.png)
+![image-20220518140539708](imgs\CSS\image-20220518140539708.png)
 
 ##### focus伪类选择器
 
 光标部分
 
-![image-20220518140759317](imgs\HTMLandCSS\image-20220518140759317.png)
+![image-20220518140759317](imgs\CSS\image-20220518140759317.png)
 
 ### 2.2 元素显示模式
 
@@ -281,19 +281,19 @@ alt + shift 选中一列中相同的光标处
 
 ③高度，行高、外边距以及内边距都可以控制(块级元素特点)。 
 
-![image-20220518143131958](imgs\HTMLandCSS\image-20220518143131958.png) 
+![image-20220518143131958](imgs\CSS\image-20220518143131958.png) 
 
 ##### 元素转换
 
-![image-20220518143459266](imgs\HTMLandCSS\image-20220518143459266.png)
+![image-20220518143459266](imgs\CSS\image-20220518143459266.png)
 
-![image-20220518143726195](imgs\HTMLandCSS\image-20220518143726195.png)
+![image-20220518143726195](imgs\CSS\image-20220518143726195.png)
 
 snipaste截图工具 
 
 案例
 
-![ ](imgs\HTMLandCSS\image-20220518150244730.png)
+![ ](imgs\CSS\image-20220518150244730.png)
 
 ### 2.3 文字垂直居中
 
@@ -311,31 +311,31 @@ line-height = 50px
 
 背景平铺  background-repeat:repeat|no-repeat|repeat-x|repeat-y
 
-![image-20220519154951330](imgs\HTMLandCSS\image-20220519154951330.png)
+![image-20220519154951330](imgs\CSS\image-20220519154951330.png)
 
 譬如，同时加背景颜色和图片
 
-![image-20220524151822087](imgs\HTMLandCSS\image-20220524151822087.png)
+![image-20220524151822087](imgs\CSS\image-20220524151822087.png)
 
 效果如图所示
 
-![image-20220524152028673](imgs\HTMLandCSS\image-20220524152028673.png)
+![image-20220524152028673](imgs\CSS\image-20220524152028673.png)
 
 ### 2.5 层叠性&继承性&优先级
 
 ##### 优先级
 
-![image-20220520103356121](imgs\HTMLandCSS\image-20220520103356121.png)
+![image-20220520103356121](imgs\CSS\image-20220520103356121.png)
 
 注意
 
-![image-20220520103928617](imgs\HTMLandCSS\image-20220520103928617.png)
+![image-20220520103928617](imgs\CSS\image-20220520103928617.png)
 
 ### 2.5 盒子模型
 
-![image-20220520105552058](imgs\HTMLandCSS\image-20220520105552058.png)
+![image-20220520105552058](imgs\CSS\image-20220520105552058.png)
 
-![image-20220520105623837](imgs\HTMLandCSS\image-20220520105623837.png)
+![image-20220520105623837](imgs\CSS\image-20220520105623837.png)
 
 #### 边框--border
 
@@ -392,7 +392,7 @@ borger-collapse:collapse;
 
 #### PS工具
 
-![image-20220520162312668](imgs\HTMLandCSS\image-20220520162312668.png)
+![image-20220520162312668](imgs\CSS\image-20220520162312668.png)
 
 #### 圆角边框 border-radius
 
@@ -423,7 +423,7 @@ border-bottom-left-radius
 
 #### 盒子阴影 box-shadow
 
-![image-20220520204659854](imgs\HTMLandCSS\image-20220520204659854.png)
+![image-20220520204659854](imgs\CSS\image-20220520204659854.png)
 
 例如：
 
@@ -442,7 +442,7 @@ div:hover{
 
 #### 文字阴影 text-shadow
 
-![image-20220520205707359](imgs\HTMLandCSS\image-20220520205707359.png)
+![image-20220520205707359](imgs\CSS\image-20220520205707359.png)
 
 格式与盒子阴影类似
 
@@ -464,7 +464,7 @@ div:hover{
 
 **float** 属性用于创建浮动框，将其移动到一边，直到左边缘或右边缘触及包含块或另一个浮动框的**边缘**。
 
-![image-20220520210716980](imgs\HTMLandCSS\image-20220520210716980.png)
+![image-20220520210716980](imgs\CSS\image-20220520210716980.png)
 
 ##### 语法
 
@@ -496,7 +496,7 @@ div:hover{
 选择器{clear:属性值}
 ```
 
-![image-20220520232556131](imgs\HTMLandCSS\image-20220520232556131.png)
+![image-20220520232556131](imgs\CSS\image-20220520232556131.png)
 
 1. 额外标签法也称为隔墙法
 
@@ -516,7 +516,7 @@ div:hover{
 
 3. 父级添加 after 伪元素
 
-   ![image-20220520235624153](imgs\HTMLandCSS\image-20220520235624153.png)
+   ![image-20220520235624153](imgs\CSS\image-20220520235624153.png)
 
    其中
 
@@ -526,29 +526,29 @@ div:hover{
 
 4. 父级添加双伪元素
 
-   ![image-20220520235843949](imgs\HTMLandCSS\image-20220520235843949.png)
+   ![image-20220520235843949](imgs\CSS\image-20220520235843949.png)
 
 四种方式对比
 
-![image-20220521000130557](imgs\HTMLandCSS\image-20220521000130557.png)
+![image-20220521000130557](imgs\CSS\image-20220521000130557.png)
 
 ### 2.7 切片
 
-![image-20220521121409704](imgs\HTMLandCSS\image-20220521121409704.png)
+![image-20220521121409704](imgs\CSS\image-20220521121409704.png)
 
 ### 2.8 CSS书写顺序
 
-![image-20220521123057537](imgs\HTMLandCSS\image-20220521123057537.png)
+![image-20220521123057537](imgs\CSS\image-20220521123057537.png)
 
 实际应用中的默认规定：
 
 ##### 1 导航栏
 
-![image-20220521163945276](imgs\HTMLandCSS\image-20220521163945276.png)
+![image-20220521163945276](imgs\CSS\image-20220521163945276.png)
 
 此外
 
-![image-20220521170143761](imgs\HTMLandCSS\image-20220521170143761.png)
+![image-20220521170143761](imgs\CSS\image-20220521170143761.png)
 
 ### 2.9 定位
 
@@ -558,11 +558,11 @@ div:hover{
 
 ##### 定位模式
 
-![image-20220523202058528](imgs\HTMLandCSS\image-20220523202058528.png)
+![image-20220523202058528](imgs\CSS\image-20220523202058528.png)
 
 ##### 边偏移
 
-![image-20220523202302913](imgs\HTMLandCSS\image-20220523202302913.png)
+![image-20220523202302913](imgs\CSS\image-20220523202302913.png)
 
 #### 相对定位
 
@@ -611,7 +611,7 @@ left:100px;
 
 #### 总结
 
-![img](imgs\HTMLandCSS\`GI_QXQ%FTP{5[A~C{{B2X3.png)
+![img](imgs\CSS\`GI_QXQ%FTP{5[A~C{{B2X3.png)
 
 #### 定位叠放次序
 
@@ -624,7 +624,7 @@ left:100px;
 
 #### 其他
 
-![image-20220524104310587](imgs\HTMLandCSS\image-20220524104310587.png)
+![image-20220524104310587](imgs\CSS\image-20220524104310587.png)
 
 ##### 1.绝对定位的盒子居中
 
@@ -694,11 +694,11 @@ overflow: auto  --根据需要自动添加或删除滚动条
 
 #### 3.1.4 实例
 
-![image-20220524152929906](imgs\HTMLandCSS\image-20220524152929906.png)
+![image-20220524152929906](imgs\CSS\image-20220524152929906.png)
 
 相应的结构为
 
-![image-20220524153033565](imgs\HTMLandCSS\image-20220524153033565.png)
+![image-20220524153033565](imgs\CSS\image-20220524153033565.png)
 
 ### 3.2 精灵图 sprites
 
@@ -711,7 +711,7 @@ overflow: auto  --根据需要自动添加或删除滚动条
 
 譬如
 
-![image-20220524154026190](imgs\HTMLandCSS\image-20220524154026190.png)
+![image-20220524154026190](imgs\CSS\image-20220524154026190.png)
 
 ### 3.3 字体图标
 
@@ -745,25 +745,25 @@ font-face {
 
 ### 3.4 三角制作
 
-![image-20220524170914646](imgs\HTMLandCSS\image-20220524170914646.png)
+![image-20220524170914646](imgs\CSS\image-20220524170914646.png)
 
 呈现的效果是
 
-![image-20220524170949451](imgs\HTMLandCSS\image-20220524170949451.png)
+![image-20220524170949451](imgs\CSS\image-20220524170949451.png)
 
 另一个实例
 
-![image-20220524171359117](imgs\HTMLandCSS\image-20220524171359117.png)
+![image-20220524171359117](imgs\CSS\image-20220524171359117.png)
 
 结合定位，可以达到如此效果
 
-![image-20220524171311172](imgs\HTMLandCSS\image-20220524171311172.png)
+![image-20220524171311172](imgs\CSS\image-20220524171311172.png)
 
 ### 3.5 用户界面样式
 
 #### 3.5.1 鼠标样式
 
-![image-20220524171643717](imgs\HTMLandCSS\image-20220524171643717.png)
+![image-20220524171643717](imgs\CSS\image-20220524171643717.png)
 
 #### 3.5.2 轮廓线
 
@@ -783,11 +783,11 @@ resize: none;
 
 用于实现文字和图片的对齐方式，即面向行内块元素们之间的对齐
 
-![image-20220524174147454](imgs\HTMLandCSS\image-20220524174147454.png)
+![image-20220524174147454](imgs\CSS\image-20220524174147454.png)
 
 譬如
 
-![image-20220524174439178](imgs\HTMLandCSS\image-20220524174439178.png)
+![image-20220524174439178](imgs\CSS\image-20220524174439178.png)
 
 ##### 解决图片底部默认空白缝隙问题
 
@@ -831,17 +831,17 @@ display: -webkit-box;
 
 2. 鼠标经过某个盒子的时候，提高当前盒子的层级即呵（如果没有有定位，则加相对定位（保留位置），如果有定位，则加z-index )
 
-   ![img](imgs\HTMLandCSS\BAN3`4O1IYPIM75S8I7FB`2.png)
+   ![img](imgs\CSS\BAN3`4O1IYPIM75S8I7FB`2.png)
 
 #### 3.5.7 浮动实现图片与文字对齐
 
 实现的效果为
 
-![img](imgs\HTMLandCSS\50}UH6R690@3$WI7RT4SJZC.jpg)
+![img](imgs\CSS\50}UH6R690@3$WI7RT4SJZC.jpg)
 
 #### 3.5.8 制作直角三角形
 
-![img](imgs\HTMLandCSS\QQ图片20220525151352.jpg)
+![img](imgs\CSS\QQ图片20220525151352.jpg)
 
 将代码可精简为
 
@@ -855,27 +855,27 @@ border-width: 22px 8px 0 0;
 
 实现的效果为
 
-![img](imgs\HTMLandCSS\QYIMOA_JFETD3GP1PQ4@4BD.png)
+![img](imgs\CSS\QYIMOA_JFETD3GP1PQ4@4BD.png)
 
 ### 3.6 初始化
 
-### ![image-20220525134609133](imgs\HTMLandCSS\image-20220525134609133.png)
+### ![image-20220525134609133](imgs\CSS\image-20220525134609133.png)
 
-![image-20220525134439283](imgs\HTMLandCSS\image-20220525134439283.png)
+![image-20220525134439283](imgs\CSS\image-20220525134439283.png)
 
 ## 4 HTML5 新特性
 
 ### 4.1 语义标签
 
-![image-20220525151744285](imgs\HTMLandCSS\image-20220525151744285.png)
+![image-20220525151744285](imgs\CSS\image-20220525151744285.png)
 
 ### 4.2 视频标签
 
-![image-20220525150454672](imgs\HTMLandCSS\image-20220525150454672.png)
+![image-20220525150454672](imgs\CSS\image-20220525150454672.png)
 
 ### 4.3 音频标签
 
-![image-20220525153950410](imgs\HTMLandCSS\image-20220525153950410.png)
+![image-20220525153950410](imgs\CSS\image-20220525153950410.png)
 
 ### 4.4 新增input
 
@@ -883,11 +883,11 @@ border-width: 22px 8px 0 0;
 
 注意：要在表单域当中<form>
 
-![image-20220525154300421](imgs\HTMLandCSS\image-20220525154300421.png)
+![image-20220525154300421](imgs\CSS\image-20220525154300421.png)
 
 #### 4.4.2 表单属性
 
-![image-20220525154747340](imgs\HTMLandCSS\image-20220525154747340.png)
+![image-20220525154747340](imgs\CSS\image-20220525154747340.png)
 
 ## 5 CCS3 新特性
 
@@ -895,41 +895,41 @@ border-width: 22px 8px 0 0;
 
 #### 属性选择器
 
-![image-20220525160250463](imgs\HTMLandCSS\image-20220525160250463.png)
+![image-20220525160250463](imgs\CSS\image-20220525160250463.png)
 
 示例1：
 
-![image-20220525160222178](imgs\HTMLandCSS\image-20220525160222178.png)
+![image-20220525160222178](imgs\CSS\image-20220525160222178.png)
 
 示例2：
 
-![image-20220525160420760](imgs\HTMLandCSS\image-20220525160420760.png)
+![image-20220525160420760](imgs\CSS\image-20220525160420760.png)
 
 示例3：
 
-![image-20220525160805340](imgs\HTMLandCSS\image-20220525160805340.png)
+![image-20220525160805340](imgs\CSS\image-20220525160805340.png)
 
 示例4：
 
-![image-20220525160805340](imgs\HTMLandCSS\1111111111.png)
+![image-20220525160805340](imgs\CSS\1111111111.png)
 
 
 
 #### 结构伪类选择器
 
-![image-20220525160805340](imgs\HTMLandCSS\20220527135144.png)
+![image-20220525160805340](imgs\CSS\20220527135144.png)
 
 示例
 
-![image-20220525160805340](imgs\HTMLandCSS\20220527135620.jpg)
+![image-20220525160805340](imgs\CSS\20220527135620.jpg)
 
 child 和 type 的差别在于
 
-![image-20220525160805340](imgs\HTMLandCSS\20220527135421.png)
+![image-20220525160805340](imgs\CSS\20220527135421.png)
 
 其中
 
-![image-20220525160805340](imgs\HTMLandCSS\20220527135315.png)
+![image-20220525160805340](imgs\CSS\20220527135315.png)
 
 小结
 
@@ -942,51 +942,51 @@ child 和 type 的差别在于
 
 #### 伪元素选择器
 
-![image-20220525160805340](imgs\HTMLandCSS\20220527135921.png)
+![image-20220525160805340](imgs\CSS\20220527135921.png)
 
 ##### 清除浮动
 
 采用伪元素选择器可以简化网页结构
 
-![img](imgs\HTMLandCSS\Z64K~SVBAGU@U~A{9MCZISR.png)
+![img](imgs\CSS\Z64K~SVBAGU@U~A{9MCZISR.png)
 
 盒子两端都考虑更为严谨
 
-![img](imgs\HTMLandCSS\20220527140201.png)
+![img](imgs\CSS\20220527140201.png)
 
 ### 5.2 新盒子模型
 
-![img](imgs\HTMLandCSS\1BXM~%Y3OORWSERQJ2EU{IT.png)
+![img](imgs\CSS\1BXM~%Y3OORWSERQJ2EU{IT.png)
 
 ### 5.3 新功能——模糊、函数、过渡
 
 #### 模糊
 
-![img](imgs\HTMLandCSS\20220527140414.png)
+![img](imgs\CSS\20220527140414.png)
 
 #### 函数
 
-![img](imgs\HTMLandCSS\20220527140502.png)
+![img](imgs\CSS\20220527140502.png)
 
 #### 过渡
 
-![img](imgs\HTMLandCSS\T1@SW}VI[2NQ1]HX8YYYN@D.png)
+![img](imgs\CSS\T1@SW}VI[2NQ1]HX8YYYN@D.png)
 
 示例1：前两个属性是必须的，后两个可以省略
 
-![img](imgs\HTMLandCSS\20220527140613.jpg)
+![img](imgs\CSS\20220527140613.jpg)
 
 示例2：4个属性都具备
 
-![img](imgs\HTMLandCSS\20220527140651.jpg)
+![img](imgs\CSS\20220527140651.jpg)
 
 示例3：多个属性都设置过渡
 
-![img](imgs\HTMLandCSS\20220527140754.jpg)
+![img](imgs\CSS\20220527140754.jpg)
 
 示例4：全部属性都设置过渡
 
-![img](imgs\HTMLandCSS\20220527140835.jpg)
+![img](imgs\CSS\20220527140835.jpg)
 
 ## 6 网站制作示例
 
@@ -1002,14 +1002,14 @@ child 和 type 的差别在于
 
 三、HTML页面引入favicon图标
 
-![image-20220527141317661](imgs\HTMLandCSS\image-20220527141317661.png)
+![image-20220527141317661](imgs\CSS\image-20220527141317661.png)
 
 ### 6.2 网站TDK三大标签SEO优化
 
 SEO ( SearchEngine Optimization )汉译为搜索引擎优化，是一种利用搜索引擎的规则提高网站在有关搜索引擎内自然排名的方式
 SEO的目的是对网站进行深度的优化，从而帮助网站获取免费的流量，进而在搜索引擎上提升网站的排名，提高网站的知名度。
 
-![image-20220527144752025](imgs\HTMLandCSS\image-20220527144752025.png)
+![image-20220527144752025](imgs\CSS\image-20220527144752025.png)
 
 1.title网站标题
 
@@ -1021,8 +1021,8 @@ title具有不可替代性，是我们内页的第一个重要标签，是搜索
 简要说明我们网站主要是做什么的。
 我们提倡，description作为网站的总体业务和主题概括，多采用“我们是.”、“我们提供..”、“x××网作为.….”、“电话:010.….”之类语句。
 
-![image-20220527145131013](imgs\HTMLandCSS\image-20220527145131013.png)
+![image-20220527145131013](imgs\CSS\image-20220527145131013.png)
 
 3.keywords关键字
 
-![image-20220527145244197](imgs\HTMLandCSS\image-20220527145244197.png)
+![image-20220527145244197](imgs\CSS\image-20220527145244197.png)

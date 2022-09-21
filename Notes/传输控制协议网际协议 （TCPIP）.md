@@ -1,4 +1,4 @@
-# 传输控制协议/网际协议 （TCP/IP）
+# 传输控制协议/网际协议 （TCPIP）
 
 - 传输控制协议（Transmission Control  Protocol, TCP） -- 负责高层功能，如**分段**、**重装**、**差错检测**
 - 网际协议（Internet Protocol, IP）-- 处理数据报的路由选择
