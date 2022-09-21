@@ -6,8 +6,6 @@
 
 Sigmoid 以相对柔和的方式对函数进行拟合，而 ReLU 则相对刚硬，呈现斜率突变的情况。
 
-<img src="C:\Users\Sherry\Documents\Tencent Files\2242444853\FileRecv\MobileFile\Screenshot_2022-04-26-00-05-09-80_149003a2d400f6a.jpg" alt="Screenshot_2022-04-26-00-05-09-80_149003a2d400f6a" style="zoom: 33%;" />
-
 ### 1.2 机器学习的通用步骤
 
 ###### 建立初始模型→定义误差函数→优化模型参数
