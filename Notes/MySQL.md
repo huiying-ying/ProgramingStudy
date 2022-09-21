@@ -1,8 +1,8 @@
 ## 1. 基础知识
 
-![image-20220920220144212](D:\Typora\Notes\imgs\MySql\image-20220920220144212.png)
+![image-20220920220144212](imgs\MySql\image-20220920220144212.png)
 
-![image-20220920220156414](D:\Typora\Notes\imgs\MySql\image-20220920220156414.png)
+![image-20220920220156414](imgs\MySql\image-20220920220156414.png)
 
 ### 1.1 sql、DB、DBMS关系
 
@@ -40,15 +40,15 @@ DCL（数据控制语言） --grant授权、remove撤销权限等
 
 ### 1.4 安装与卸载
 
-![image-20220920130944278](D:\Typora\Notes\imgs\MySql\image-20220920130944278.png)
+![image-20220920130944278](imgs\MySql\image-20220920130944278.png)
 
 
 
-![image-20220920131047458](D:\Typora\Notes\imgs\MySql\image-20220920131047458.png)
+![image-20220920131047458](imgs\MySql\image-20220920131047458.png)
 
 
 
-![image-20220920131130315](D:\Typora\Notes\imgs\MySql\image-20220920131130315.png)
+![image-20220920131130315](imgs\MySql\image-20220920131130315.png)
 
 ## 2. 操作指令
 

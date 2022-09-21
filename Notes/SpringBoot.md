@@ -154,7 +154,7 @@ public class SpringConfig {}
 
 - 创建项目
 
-![image-20220904224851610](D:\Typora\Notes\imgs\SpringBoot\image-20220904224851610.png)
+![image-20220904224851610](imgs\SpringBoot\image-20220904224851610.png)
 
 常用依赖也可以在列表中找到，自动添加到pom.xml文件中。
 
@@ -224,7 +224,7 @@ public @interface SpringBootConfiguration {
 
 默认扫描的是，@ComponentScan注解所在的包和子包中包含的所有类（本目录中是SpringbootFirstApplication 被注解，即 uestc 包及其子包是扫描的范围）
 
-![image-20220905204252301](D:\Typora\Notes\imgs\SpringBoot\image-20220905204252301.png)
+![image-20220905204252301](imgs\SpringBoot\image-20220905204252301.png)
 
 因此常规操作是，**主类放在主包下面，其他类放在主包中子包的下面**。
 
@@ -264,7 +264,7 @@ server:
 
 如果两个配置文件都存在，则会默认以 .properties 文件为主运行
 
-![image-20220905213450041](D:\Typora\Notes\imgs\SpringBoot\image-20220905213450041.png)
+![image-20220905213450041](imgs\SpringBoot\image-20220905213450041.png)
 
 ### 2.5 多环境配置
 
@@ -274,7 +274,7 @@ server:
 
 每个环境创建一个配置文件，命名必须以 **application-环境标识-properties|yml** 的格式
 
-![image-20220906120849803](D:\Typora\Notes\imgs\SpringBoot\image-20220906120849803.png)
+![image-20220906120849803](imgs\SpringBoot\image-20220906120849803.png)
 
 ### 2.6 自定义配置
 
@@ -355,7 +355,7 @@ public String queryInfo(){
 
 注意，没有前缀的话，配置时就是直接寻找=左侧的key
 
-![image-20220906194000930](D:\Typora\Notes\imgs\SpringBoot\image-20220906194000930.png)
+![image-20220906194000930](imgs\SpringBoot\image-20220906194000930.png)
 
 通过添加依赖，补充配置信息的解释
 
@@ -406,7 +406,7 @@ SpringBoot不推荐使用JSP，而是使用模板技术代替JSP。
 
 3. 创建一个存放 jsp 的目录，一般叫做webapp（设置webapp的结构）
 
-![image-20220906221020001](D:\Typora\Notes\imgs\SpringBoot\image-20220906221020001.png)
+![image-20220906221020001](imgs\SpringBoot\image-20220906221020001.png)
 
 4. 需要在pom.xml指定jsp文件编译后的存放目录，即META-INF/resources
 

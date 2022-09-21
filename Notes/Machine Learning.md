@@ -12,7 +12,7 @@ Sigmoid 以相对柔和的方式对函数进行拟合，而 ReLU 则相对刚硬
 
 ###### 建立初始模型→定义误差函数→优化模型参数
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220427203411300.png" alt="image-20220427203411300" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220427203411300.png" alt="image-20220427203411300" style="zoom:50%;" />
 
 
 
@@ -20,13 +20,13 @@ Sigmoid 以相对柔和的方式对函数进行拟合，而 ReLU 则相对刚硬
 
 针对训练数据和测试数据误差结果不同的各个情况，对模型作出调整。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220427204138699.png" alt="image-20220427204138699" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220427204138699.png" alt="image-20220427204138699" style="zoom:50%;" />
 
 
 
 #### 1 训练数据的误差大
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220426215630950.png" alt="image-20220426215630950" style="zoom: 50%;" />
+<img src="imgs\Machine Learning\image-20220426215630950.png" alt="image-20220426215630950" style="zoom: 50%;" />
 
 ##### Model Bias --模型过于简单/限制过于苛刻
 
@@ -68,13 +68,13 @@ Sigmoid 以相对柔和的方式对函数进行拟合，而 ReLU 则相对刚硬
 
 训练数据分为两半，一部分用于得到不同模型的误差结果，一部分用于对上述模型进行筛选
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220427205916531.png" alt="image-20220427205916531" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220427205916531.png" alt="image-20220427205916531" style="zoom:50%;" />
 
 进阶版本——
 
 训练数据等分为3份，每次选择不同的一份作为筛选所用（Val），另外两份用于训练数据（Train），分别测试不同的模型，每种模型再求误差平均，选择最小的一种作为更为合适的模型。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220427210219971.png" alt="image-20220427210219971" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220427210219971.png" alt="image-20220427210219971" style="zoom:50%;" />
 
 #### 4 优化方案分析
 
@@ -82,7 +82,7 @@ Sigmoid 以相对柔和的方式对函数进行拟合，而 ReLU 则相对刚硬
 
 在梯度为0的参数点，一次项为0，仅根据梯度无法判断参数优化的步进方向，此时需要参考二次项。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220427210708746.png" alt="image-20220427210708746" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220427210708746.png" alt="image-20220427210708746" style="zoom:50%;" />
 
 通过分析**嗨森矩阵H**的不同情况，可以判断梯度为0的参考点究竟是最大值、最小值、还是**鞍点**。
 
@@ -90,7 +90,7 @@ Sigmoid 以相对柔和的方式对函数进行拟合，而 ReLU 则相对刚硬
 
 通过嗨森矩阵可以得到鞍点的下降方向，但实际问题中嗨森矩阵的计算量过大，往往选取其他方法进行求解。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220427211903547.png" alt="image-20220427211903547" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220427211903547.png" alt="image-20220427211903547" style="zoom:50%;" />
 
 ## 2 卷积神经网络 （Convolutional Neural Networks, CNN）
 
@@ -122,7 +122,7 @@ Sigmoid 以相对柔和的方式对函数进行拟合，而 ReLU 则相对刚硬
 
 #### 2.2.2 第二种方式——Parameter Sharing（共享参数）
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220510143546615.png" alt="image-20220510143546615" style="zoom:33%;" />
+<img src="imgs\Machine Learning\image-20220510143546615.png" alt="image-20220510143546615" style="zoom:33%;" />
 
 neural的参数完全一样（但输出不会一样，因为输入不会一样）
 
@@ -130,25 +130,25 @@ neural的参数完全一样（但输出不会一样，因为输入不会一样�
 
 ###### filter --指的是neural中相同的对应参数
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220701141153672.png" alt="image-20220701141153672" style="zoom:67%;" />
+<img src="imgs\Machine Learning\image-20220701141153672.png" alt="image-20220701141153672" style="zoom:67%;" />
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220510143815754.png" alt="image-20220510143815754" style="zoom:33%;" />
+<img src="imgs\Machine Learning\image-20220510143815754.png" alt="image-20220510143815754" style="zoom:33%;" />
 
 #### 2.2.3 第三种方式——Max Pooling（在上述得到的Convolutional Layers的基础上）
 
 经过filter处理的每一层数据，将其分为小组，不同的pooling有不同的机制，这里的Max Pooling就是选取其中最大的。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220510145131268.png" alt="image-20220510145131268" style="zoom:33%;" />
+<img src="imgs\Machine Learning\image-20220510145131268.png" alt="image-20220510145131268" style="zoom:33%;" />
 
 注：上述方法要灵活应用，譬如Alpha Go也作为图像进行处理，但pooling并不适用（因为抽去个别像素点后，整个棋局就变得不再一样）
 
 往往 **convolution** 和 **pooling** 是配合使用的。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220701142131747.png" alt="image-20220701142131747" style="zoom:67%;" />
+<img src="imgs\Machine Learning\image-20220701142131747.png" alt="image-20220701142131747" style="zoom:67%;" />
 
 ##### 经典CNN全步骤
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220701143239254.png" alt="image-20220701143239254" style="zoom:67%;" />
+<img src="imgs\Machine Learning\image-20220701143239254.png" alt="image-20220701143239254" style="zoom:67%;" />
 
 ## 3 Self-attention
 
@@ -162,7 +162,7 @@ neural的参数完全一样（但输出不会一样，因为输入不会一样�
 
 ③每个sequence的输出不能够确定，譬如 translation 不同的语言对应的词条不一定是多少，需要机器自己判断
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220510153216858.png" alt="image-20220510153216858" style="zoom:33%;" />
+<img src="imgs\Machine Learning\image-20220510153216858.png" alt="image-20220510153216858" style="zoom:33%;" />
 
 Self-attention 在 sequence labeling 中的作用是，考虑上下文分析一个词的词性，上下文不是固定长度的窗口，而是一个长短未知的句子。
 
@@ -172,34 +172,34 @@ Self-attention 在 sequence labeling 中的作用是，考虑上下文分析一�
 
 （两个向量分别 × Wq 和 Wk 向量得到 q 和 k）
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220510161420528.png" alt="image-20220510161420528" style="zoom: 50%;" />
+<img src="imgs\Machine Learning\image-20220510161420528.png" alt="image-20220510161420528" style="zoom: 50%;" />
 
 - 先计算得到attention分数，即各个向量之间的相关性（步骤中的softmax可以用其他方法代替，Relu之类的）
 
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220510162626640.png" alt="image-20220510162626640" style="zoom: 50%;" />
+<img src="imgs\Machine Learning\image-20220510162626640.png" alt="image-20220510162626640" style="zoom: 50%;" />
 
 - 其中 **α** 表征了各个向量（包括自己）与自己的相关程度，根据这个attention 分数抽取重要的信息，即经过处理得到的向量 **v**，二者相乘后经过相加，得到最终的向量 **b**。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220510163007663.png" alt="image-20220510163007663" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220510163007663.png" alt="image-20220510163007663" style="zoom:50%;" />
 
 -  可将重复的步骤用矩阵相乘的方式得到
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220701154019643.png" alt="image-20220701154019643" style="zoom:67%;" />
+<img src="imgs\Machine Learning\image-20220701154019643.png" alt="image-20220701154019643" style="zoom:67%;" />
 
 -  用矩阵表示整体过程
 
-  <img src="D:\Typora\Notes\imgs\Machine Learning\image-20220701154452369.png" alt="image-20220701154452369" style="zoom:67%;" />
+  <img src="imgs\Machine Learning\image-20220701154452369.png" alt="image-20220701154452369" style="zoom:67%;" />
 
 ### 3.3 Multi-head Self-attention
 
 **head** 对应于不同种类的相关性，即不止一种 **q** ，对应的 **k** 和 **v** 也有相应的数量。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220701155102273.png" alt="image-20220701155102273" style="zoom:67%;" />
+<img src="imgs\Machine Learning\image-20220701155102273.png" alt="image-20220701155102273" style="zoom:67%;" />
 
 ### 3.4 Positional Encoding 位置信息
 
-![image-20220701155431241](D:\Typora\Notes\imgs\Machine Learning\image-20220701155431241.png)
+![image-20220701155431241](imgs\Machine Learning\image-20220701155431241.png)
 
 ## 4 Seq2Seq——Transformer
 
@@ -207,17 +207,17 @@ Transformer 整体分为 Encoder 和 Decoder 两个部分，二者主要是中�
 
 其中 Cross attention 是 Decoder 提供向量 q ，Encoder 提供向量 k 和 v 。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220702114536204.png" alt="image-20220702114536204" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220702114536204.png" alt="image-20220702114536204" style="zoom:50%;" />
 
 ### 4.1 Encoder
 
 这里以一篇论文为例，并不是这样的网络架构设计就是最好的。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220702105512724.png" alt="image-20220702105512724" style="zoom:33%;" />
+<img src="imgs\Machine Learning\image-20220702105512724.png" alt="image-20220702105512724" style="zoom:33%;" />
 
 将原文章的流程图进行拆解介绍
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220702103251702.png" alt="image-20220702103251702" style="zoom: 25%;" />
+<img src="imgs\Machine Learning\image-20220702103251702.png" alt="image-20220702103251702" style="zoom: 25%;" />
 
 其中 Transform 的每一个block之中有多个操作，即
 
@@ -235,29 +235,29 @@ Transformer 整体分为 Encoder 和 Decoder 两个部分，二者主要是中�
 
 
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220702104719854.png" alt="image-20220702104719854" style="zoom:67%;" />
+<img src="imgs\Machine Learning\image-20220702104719854.png" alt="image-20220702104719854" style="zoom:67%;" />
 
 ### 4.2 Decoder
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220702110503990.png" alt="image-20220702110503990" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220702110503990.png" alt="image-20220702110503990" style="zoom:50%;" />
 
 其中 Decoder 中的 self-attention 改为 Masked self-attention ，其区别在于 Masked 中的每个输出向量不能与其后的输入向量建立关系。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220702110757120.png" alt="image-20220702110757120" style="zoom: 33%;" />
+<img src="imgs\Machine Learning\image-20220702110757120.png" alt="image-20220702110757120" style="zoom: 33%;" />
 
 AT 与 NAT
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220702111722276.png" alt="image-20220702111722276" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220702111722276.png" alt="image-20220702111722276" style="zoom:50%;" />
 
 ## 6 自编码器（auto-encoder）
 
 编码器将原始数据压缩成一个向量，而解码器则通过向量重构原数据，对于网络的训练目标是恢复出的数据越接近原数据越好。
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220829150200432.png" alt="image-20220829150200432" style="zoom:50%;" />
+<img src="imgs\Machine Learning\image-20220829150200432.png" alt="image-20220829150200432" style="zoom:50%;" />
 
 更多**降维**的实现方法
 
-<img src="D:\Typora\Notes\imgs\Machine Learning\image-20220829151007801.png" alt="image-20220829151007801" style="zoom:33%;" />
+<img src="imgs\Machine Learning\image-20220829151007801.png" alt="image-20220829151007801" style="zoom:33%;" />
 
 de-noising encoder
 
@@ -267,19 +267,19 @@ de-noising encoder
 
 ##### Feature Disentangle
 
-![image-20220829154103074](D:\Typora\Notes\imgs\Machine Learning\image-20220829154103074.png)
+![image-20220829154103074](imgs\Machine Learning\image-20220829154103074.png)
 
 ##### VQVAE
 
-![image-20220829154013758](D:\Typora\Notes\imgs\Machine Learning\image-20220829154013758.png)
+![image-20220829154013758](imgs\Machine Learning\image-20220829154013758.png)
 
 文章摘要的输出：使得两个transformer合作，实现seq2seq2seq，为了使中间的embedding是人能够读得懂的句子，让其经过Discriminator的处理。
 
-![image-20220829160632653](D:\Typora\Notes\imgs\Machine Learning\image-20220829160632653.png)
+![image-20220829160632653](imgs\Machine Learning\image-20220829160632653.png)
 
 用树结构表达一段文字
 
-![image-20220829160524993](D:\Typora\Notes\imgs\Machine Learning\image-20220829160524993.png)
+![image-20220829160524993](imgs\Machine Learning\image-20220829160524993.png)
 
 #### 其他应用
 
@@ -287,22 +287,22 @@ de-noising encoder
 
 将 Embedding 进行解码的过程看做是 Generator 的一种应用。
 
-![image-20220829163713132](D:\Typora\Notes\imgs\Machine Learning\image-20220829163713132.png)
+![image-20220829163713132](imgs\Machine Learning\image-20220829163713132.png)
 
 ##### Compression
 
 将 encoder 的输出当做是压缩的结果
 
-![image-20220829164049987](D:\Typora\Notes\imgs\Machine Learning\image-20220829164049987.png)
+![image-20220829164049987](imgs\Machine Learning\image-20220829164049987.png)
 
 ##### Anomaly Detection —— 异常检测
 
-![image-20220829164321163](D:\Typora\Notes\imgs\Machine Learning\image-20220829164321163.png)
+![image-20220829164321163](imgs\Machine Learning\image-20220829164321163.png)
 
 以及相关文献。它与一般分类问题的区别在于，异常数据不够充分的前提下进行训练。
 
-![image-20220829164632692](D:\Typora\Notes\imgs\Machine Learning\image-20220829164632692.png)
+![image-20220829164632692](imgs\Machine Learning\image-20220829164632692.png)
 
 其他异常检测的介绍
 
-![image-20220829164934201](D:\Typora\Notes\imgs\Machine Learning\image-20220829164934201.png)
+![image-20220829164934201](imgs\Machine Learning\image-20220829164934201.png)

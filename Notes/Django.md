@@ -620,7 +620,7 @@ request.PoST.getlist('参数名')
 
 MVC 代表 **Model-View-Controller (模型-视图-控制器)** 模式。
 
-<img src="D:\Typora\Notes\imgs\Django\image-20220513144443696.png" alt="image-20220513144443696" style="zoom:50%;" />
+<img src="imgs\Django\image-20220513144443696.png" alt="image-20220513144443696" style="zoom:50%;" />
 
 - M 模型层(Model)，主要用于对数据库层的封装
 - V 视图层(View)，用于向用户展示结果(WHAT + HQW )
@@ -628,7 +628,7 @@ MVC 代表 **Model-View-Controller (模型-视图-控制器)** 模式。
 
 MVC 的升级版——MTV代表 **Model-Template-View(模型-模板-视图) **模式。
 
-<img src="D:\Typora\Notes\imgs\Django\image-20220513144839689.png" alt="image-20220513144839689" style="zoom:50%;" />
+<img src="imgs\Django\image-20220513144839689.png" alt="image-20220513144839689" style="zoom:50%;" />
 
 - M 模型层(Model)负责与数据库交互
 
@@ -971,15 +971,15 @@ http://127.0.0.1:8000/page/12，
 
 即在原来 url.py 的文件中的路径基础上添加别名 
 
-<img src="D:\Typora\Notes\imgs\Django\image-20220529151756897.png" alt="image-20220529151756897" style="zoom:67%;" />
+<img src="imgs\Django\image-20220529151756897.png" alt="image-20220529151756897" style="zoom:67%;" />
 
-响应模板为<img src="D:\Typora\Notes\imgs\Django\image-20220529153250364.png" alt="image-20220529153250364" style="zoom: 67%;" />
+响应模板为<img src="imgs\Django\image-20220529153250364.png" alt="image-20220529153250364" style="zoom: 67%;" />
 
 或者带参数的
 
-<img src="D:\Typora\Notes\imgs\Django\image-20220529153206061.png" alt="image-20220529153206061" style="zoom:67%;" />
+<img src="imgs\Django\image-20220529153206061.png" alt="image-20220529153206061" style="zoom:67%;" />
 
-响应模板为<img src="D:\Typora\Notes\imgs\Django\image-20220529153334906.png" alt="image-20220529153334906" style="zoom:67%;" />
+响应模板为<img src="imgs\Django\image-20220529153334906.png" alt="image-20220529153334906" style="zoom:67%;" />
 
 #### 视图函数中
 
@@ -1015,7 +1015,7 @@ STATICFIL ES_ DIRS = PATH(BASE_DIR, "static"),
 2.使用静态资源- {% static '静态资源路径' %}
 3.样例 <img src="{% static images/lena.jpg' %}">
 
-<img src="D:\Typora\Notes\imgs\Django\image-20220529160932756.png" alt="image-20220513144443696" />
+<img src="imgs\Django\image-20220529160932756.png" alt="image-20220513144443696" />
 
 ### 应用
 

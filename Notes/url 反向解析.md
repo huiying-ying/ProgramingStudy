@@ -4,7 +4,7 @@
 
 # 指纹相似性不同计算方式
 
-![image-20220908224211957](C:\Users\Sherry\AppData\Roaming\Typora\typora-user-images\image-20220908224211957.png)
+![image-20220908224211957](imgs/url反向解析/image-20220908224211957.png)
 
 
 

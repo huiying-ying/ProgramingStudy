@@ -289,7 +289,7 @@ root.add(a4, BorderLayout.WEST);
 root.add(a5, BorderLayout.CENTER);
 ```
 
-![image-20220627203259768](D:\Typora\Notes\imgs\Swing\image-20220627203259768.png)
+![image-20220627203259768](imgs\Swing\image-20220627203259768.png)
 
 #### 1.9.2 绝对定位
 
