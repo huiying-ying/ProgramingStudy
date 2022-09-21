@@ -76,6 +76,24 @@
 
 ![image-20220920210838149](imgs\Git\image-20220920210838149.png)
 
+报错解决：
+
+如果远端分支有了变化，本地分支是基于当前远端分支的历史版本进行修改的，那么在提交并push后会报如下错误
+
+![image-20220922020900091](imgs/Git/image-20220922020900091.png)
+
+这种情况需要用一下两行代码解决
+
+```
+# 其中origin是远端的别名，main是分支
+
+git pull origin main
+
+git push -u origin main
+```
+
+![image-20220922020541125](imgs/Git/image-20220922020541125.png)
+
 ### 2.3 git pull
 
 ![image-20220920211124102](imgs\Git\image-20220920211124102.png)
