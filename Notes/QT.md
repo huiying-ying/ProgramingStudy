@@ -138,80 +138,257 @@ Edit --> 编辑信号和槽 --> 鼠标点击不放开，拖动到要控制的控
 
 示例：继承QMainWindow的类的实现
 
+#### 代码
 
+```python
+import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication, QDesktopWidget
+from PyQt5.QtGui import QIcon
 
-<<<<<<< HEAD
-### 2.9 QtWebEngineWidgets
-=======
+# 只存在5秒的消息
+class FirstMainWin(QMainWindow):
+    def __init__(self,parent=None):
+        super(FirstMainWin,self).__init__(parent)
+
+        # 设置主窗口的标题
+        self.setWindowTitle('第一个主窗口应用')
+        # 设置窗口的尺寸
+        self.resize(400, 300)
+        self.status = self.statusBar()
+        self.status.showMessage('只存在5秒的消息', 5000)
+
+if __name__=='__main__':
+    # 创建QApplication类的实例
+    app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon('./images/atom.ico'))
+    main = FirstMainWin()
+    main.show()
+    sys.exit(app.exec_())
+```
+
 ### 3.2 窗口居中
 
 需要手动计算，确定窗口左上角的坐标
 
-![image-20220922111917440](imgs/QT/image-20220922111917440.png)
+![image-20220922142133710](imgs/QT/image-20220922142133710.png)
+
+#### 代码
+
+```python
+import sys
+from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QApplication
+
+class CenterForm(QMainWindow):
+    def __init__(self):
+        super(CenterForm,self).__init__()
+        #设置主窗口的标题
+        self.setWindowTitle('第一个主窗口应用')
+        #设置窗口的尺寸
+        self.resize(400,300)
+    def center(self):
+        # 获取屏幕坐标系
+        screen = QDesktopWidget().screenGeometry()
+        # 获取窗口坐标系
+        size = self.geometry()
+        newLeft = (screen.width() - size.width()) / 2
+        newTop = (screen.height()- size.height()) / 2
+        self.move(newLeft, newTop)
+if __name__=='__main__':
+    # 创建QApplication类的实例
+    app = QApplication(sys.argv)
+    main = CenterForm()
+    main.show()
+    sys.exit(app.exec_())
+```
 
 ### 3.3 退出窗口
 
-![image-20220922112259335](imgs/QT/image-20220922112259335.png)
+手写代码定义信号与槽：信号时单击按钮，槽是关闭应用程序，即**按钮单击事件的方法**
 
-![image-20220922112524208](imgs/QT/image-20220922112524208.png)
+![image-20220922142613697](imgs/QT/image-20220922142613697.png)
 
-![image-20220922112621075](imgs/QT/image-20220922112621075.png)
+#### 代码
+
+```python
+import sys
+from PyQt5.QtWidgets import QHBoxLayout, QMainWindow, QApplication, QPushButton, QWidget
+class QuitApplication(QMainWindow):
+    def __init__(self):
+        super(QuitApplication,self).__init__()
+        self.resize(300,120)
+        self.setWindowTitle('退出应用程序')
+        #添加Button
+        self.button1 = QPushButton('退出应用程序')
+        self.button1 = QPushButton('退出应用程序')
+        #将信号与槽关联
+        self.button1.clicked.connect(self.onclick_Button)
+        layout = QHBoxLayout()
+        layout.addWidget(self.button1)
+        mainFrame = QWidget()
+        mainFrame.setLayout(layout)
+        self.setCentralWidget(mainFrame)
+
+    # 按钮单击事件的方法（自定义的槽）
+    def onclick_Button(self):
+        sender = self.sender()
+        print(sender.text() + '按钮被按下')
+        app = QApplication.instance()
+        # 退出应用程序
+        app.quit()
+if __name__=='__main__':
+    # 创建QApplication类的实例
+    app = QApplication(sys.argv)
+    main = QuitApplication()
+    main.show()
+    sys.exit(app.exec_())
+```
 
 ### 3.4 屏幕坐标系
 
-![image-20220922112920138](imgs/QT/image-20220922112920138.png)
+这里展示3种方式获取窗口（工作区）位置及大小信息
 
-![image-20220922114119210](imgs/QT/image-20220922114119210.png)
+####  代码
 
-![image-20220922113227045](imgs/QT/image-20220922113227045.png)
+```python
+import sys
+from PyQt5.QtWidgets import QApplication, QPushButton, QWidget
+def onClick_Button():
+    print("1")
+    print("widget.x() = %d" % widget.x())  # 窗口横坐标
+    print("widget.y() = %d" % widget.y())  # 窗口纵坐标
+    print("widget.width() = %d" % widget.width())  # 工作区宽度
+    print("widget.height() = %d" % widget.height())   # 工作区高度
 
-两种方式相比，第一种坐标是整体窗口的数据；第二种则是工作区，不包括菜单栏。两者的宽和高都是工作区的数据。
+    print("2")
+    print("widget.geometry().x() = %d" % widget.geometry().x())  # 工作区横坐标
+    print("widget.geometry().y() = %d" % widget.geometry().y())  # 工作区纵坐标
+    print("widget.geometry().width() = %d" % widget.geometry().width())  # 工作区宽度
+    print("widget.geometry().height() = %d" % widget.geometry().height())  # 工作区高度
 
-![image-20220922113333777](imgs/QT/image-20220922113333777.png)
-
-![image-20220922113602468](imgs/QT/image-20220922113602468.png)
-
-第三种方法的坐标是工作区，宽和高则是整个窗口的数据。
-
-![image-20220922113724442](imgs/QT/image-20220922113724442.png)
-
-![image-20220922113950899](imgs/QT/image-20220922113950899.png)
-
-总结
-
-![image-20220922114341481](imgs/QT/image-20220922114341481.png)
-
-![image-20220922114616413](imgs/QT/image-20220922114616413.png) 
+    print("3")
+    print("widget.frameGeometry().x() = %d" % widget.frameGeometry().x())  # 窗口横坐标
+    print("widget.frameGeometry().y() = %d" % widget.frameGeometry().y())  # 窗口纵坐标
+    print("widget.frameGeometry().width() = %d" % widget.frameGeometry().width())  # 窗口宽度
+    print("widget.frameGeometry().height() = %d" % widget.frameGeometry().height())   # 窗口高度
+if __name__=='__main__':
+    app = QApplication(sys.argv)
+    widget = QWidget()
+    btn = QPushButton(widget)
+    btn.setText("按钮")
+    btn.clicked.connect(onClick_Button)
+    btn.move(24, 52)
+    widget.resize(300, 240)  # 设置工作区尺寸
+    widget.move(250, 200)
+    widget.setWindowTitle('屏幕坐标系')
+    widget.show()
+    sys.exit(app.exec_())
+```
 
 在windows下的效果
 
-![image-20220922115205963](imgs/QT/image-20220922115205963.png)
+![image-20220922152357303](imgs/QT/image-20220922152357303.png)
 
 ### 3.5 图标
 
-![image-20220922115717476](imgs/QT/image-20220922115717476.png)
+窗口的setWindowIcon方法用于设置窗口的图标，只在Windows中可用
 
-![image-20220922115732590](imgs/QT/image-20220922115732590.png)
+QAplication中的setWindowIcon,方法用于设置主窗口的图标和应用程序图标，但调用了窗口的setWindowIcon方法
 
-![image-20220922115916243](imgs/QT/image-20220922115916243.png)
+QAplication中的setwindowIcon方法就只能用于设置应用程序图标了
+
+#### 代码
+
+```python
+import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtGui import QIcon
+
+class IconForm(QMainWindow):
+    def __init__(self):
+        super(IconForm,self).__init__()
+        self.initUI()
+    def initUI(self):
+        self.setGeometry(300,300,250,250)
+        #设置主窗口的标题
+        self.setWindowTitle('设置窗口图标')
+        #设置窗口图标1
+        self.setWindowIcon(QIcon('./images/atom.ico'))
+if __name__=='__main__':
+    # 创建QApplication类的实例
+    app = QApplication(sys.argv)
+    main = IconForm()
+    main.show()
+    sys.exit(app.exec_())
+```
 
 ## 4 控件
 
 ### 4.1 显示提示信息
 
-窗口/控件.setToolTip('Message')
+窗口/控件**.setToolTip('Message')**
 
-![image-20220922121944323](imgs/QT/image-20220922121944323.png)
+```python
+import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication, QToolTip
+from PyQt5.QtGui import QFont
 
-启动代码
 
-![image-20220922122031025](imgs/QT/image-20220922122031025.png)
+class TooltipForm(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+    def initUI(self):
+        QToolTip.setFont(QFont('SansSerif', 12))
+        self.setToolTip('今天是<b>星期五</b>')
+        self.setGeometry(300, 300, 200, 300)
+        self.setWindowTitle('设置控件提示消息')
+if __name__=='__main__':
+    # 创建QApplication类的实例
+    app = QApplication(sys.argv)
+    main = TooltipForm()
+    main.show()
+    sys.exit(app.exec_())
+```
 
 ### 4.2 QLabel
 
-![image-20220922122437140](imgs/QT/image-20220922122437140.png)
+- 
+  setAlignment(）：设置文本的对齐方式
+- setIndent(）：设置文本缩进
+- text(）：获取文本内容
+- setBuddy(）：设置伙伴关系
+- setText(）：设置文本内容
+- selectedText(）：返回所选择的字符
+- setWordWrap(）：设置是否允许换行
 
-![image-20220922122648308](imgs/QT/image-20220922122648308.png)
+常用的信号（事件）
+
+1. 当鼠标滑过OLabel控件时触发：linkHovered
+2. 当鼠标单击QLabel控件时触发：linkActivated
+
+以划过时触发为例
+
+```python
+import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication, QToolTip
+from PyQt5.QtGui import QFont
+
+class TooltipForm(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+    def initUI(self):
+        QToolTip.setFont(QFont('SansSerif', 12))
+        self.setToolTip('今天是<b>星期五</b>')
+        self.setGeometry(300, 300, 200, 300)
+        self.setWindowTitle('设置控件提示消息')
+if __name__=='__main__':
+    # 创建QApplication类的实例
+    app = QApplication(sys.argv)
+    main = TooltipForm()
+    main.show()
+    sys.exit(app.exec_())
+```
 
 ![image-20220922123352656](imgs/QT/image-20220922123352656.png)
 
@@ -230,8 +407,6 @@ Edit --> 编辑信号和槽 --> 鼠标点击不放开，拖动到要控制的控
 ## 5 报错解决
 
 ### 5.1 QtWebEngineWidgets
->>>>>>> a9155175857274965a6fb3308504de9a581785d4
-
 ![image-20220921142704247](imgs\Qt\image-20220921142704247.png)
 
 QtWebKitWidgets 是老版的代码，新版需要替换成 QtWebEngineWidgets 的包
@@ -241,3 +416,5 @@ QtWebKitWidgets 是老版的代码，新版需要替换成 QtWebEngineWidgets �
 相应代码也许进行更换
 
 ![image-20220921142842228](imgs\Qt\image-20220921142842228.png)
+
+[GitHub热榜第一，标星近万：这个用Python做交互式图形的项目火了 - 腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1461931?from=article.detail.1487043)
