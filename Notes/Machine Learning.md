@@ -104,7 +104,7 @@ Sigmoid 以相对柔和的方式对函数进行拟合，而 ReLU 则相对刚硬
 
 
 
-<img src="C:\Users\Sherry\AppData\Roaming\Typora\typora-user-images\image-20220510112117292.png" alt="image-20220510112117292" style="zoom:50%;" />
+<img src="C:\Users\Sherry\AppData\Roaming\Typora\typora-user-imgs\image-20220510112117292.png" alt="image-20220510112117292" style="zoom:50%;" />
 
 ##### 常规设置的几个参数
 

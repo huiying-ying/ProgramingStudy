@@ -454,6 +454,91 @@ if __name__=='__main__':
     sys.exit(app.exec_())
 ```
 
+### 4.6 树控件
+
+用于做目录
+
+```python
+import sys
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QIcon,QBrush,QColor
+from PyQt5.QtCore import Qt
+
+class BasicTreeWidge(QMainWindow):
+    def __init__(self, parent=None):
+        super(BasicTreeWidge, self).__init__()
+        self.setWindowTitle("树控件")
+        self.tree = QTreeWidget()
+        # 为树控件指定列数
+        self.tree.setColumnCount(2)
+        # 指定列标签
+        self.tree.setHeaderLabels(['Key','Value'])
+        self.setCentralWidget()
+
+    def linkHovered(self):
+        print('当鼠标滑过label2标签时，触发事件')
+
+    def linkClicked(self):
+        print('当鼠标单击label4标签时，触发事件')
+
+if __name__=='__main__':
+    # 创建QApplication类的实例
+    app = QApplication(sys.argv)
+    main = QLabeLDemo()
+    main.show()
+    sys.exit(app.exec_())
+```
+
+
+
+![image-20220925010212186](imgs/QT/image-20220925010212186.png)
+
+![image-20220925010358720](imgs/QT/image-20220925010358720.png)
+
+shijian
+
+![image-20220925010532956](imgs/QT/image-20220925010532956.png)
+
+![image-20220925010620902](imgs/QT/image-20220925010620902.png)
+
+
+
+![image-20220925010816132](imgs/QT/image-20220925010816132.png)
+
+修改
+
+![image-20220925011053852](imgs/QT/image-20220925011053852.png)
+
+重复之前tree的数据
+
+![image-20220925011228560](imgs/QT/image-20220925011228560.png)
+
+![image-20220925011434727](imgs/QT/image-20220925011434727.png)
+
+![image-20220925011650004](imgs/QT/image-20220925011650004.png)
+
+另一种：显示操作系统
+
+![image-20220925011854236](imgs/QT/image-20220925011854236.png)
+
+### 4.7 选项卡
+
+![image-20220925012343282](imgs/QT/image-20220925012343282.png)
+
+![image-20220925012436014](imgs/QT/image-20220925012436014.png)
+
+![image-20220925012557300](imgs/QT/image-20220925012557300.png)
+
+### 4.8 堆栈窗口
+
+![image-20220925012934811](imgs/QT/image-20220925012934811.png)
+
+![image-20220925012958771](imgs/QT/image-20220925012958771.png)
+
+![image-20220925013233913](imgs/QT/image-20220925013233913.png)
+
+![image-20220925013306288](imgs/QT/image-20220925013306288.png)
+
 ## 5 报错解决
 
 ### 5.1 QtWebEngineWidgets
