@@ -209,7 +209,7 @@ select ename,sal,comm from emp where comm is not null;
 
 ###### and or  --and 比 or 的优先级高
 
-想要实现sal > 1000的条件下deptno = 20 或者 deptno = 30，直接写的第一种写法其实并不对，考虑到优先级应当在后面加上（）
+想要实现sal > 1000的条件下deptno = 20 或者 deptno = 30，直接写的第一种写法其实并不对，考虑到优先级应当在后面加上()
 
 ```
 select ename,sal,deptno from emp where sal > 1000 and deptno = 20 or deptno = 30;
@@ -219,7 +219,7 @@ select ename,sal,deptno from emp where sal > 1000 and deptno = 20 or deptno = 30
 select ename,sal,deptno from emp where sal > 1000 and (deptno = 20 or deptno = 30);
 ```
 
-###### in  --不是表示范围，而是（）所列的选项的并集
+###### in  --不是表示范围，而是()所列的选项的并集
 
 ```
 select ename,job from emp where job = 'SALEMAN' or job ='MANAGER';
@@ -747,7 +747,113 @@ create table t_student(            // 子表
 
 ##### check（检查约束）  --Oracle数据库的约束，目前MySQL不支持该约束
 
-### 4.6 存储引擎
+### 4.6 函数
+
+#### 日期和时间
+
+##### 4.6.1 获取日期、时间
+
+|                             函数                             |              用法              |
+| :----------------------------------------------------------: | :----------------------------: |
+|                   CURDATE(),CURRENT_DATE()                   | 返回当前日期，只包含年、月、日 |
+|                   CURTIME(),CURRENT_TIME()                   | 返回当前时间，只包含时、分、秒 |
+| NOW()/SYSDATE()/CURRENT_TIMESTAMP()/LOCALTIME()/LOCALTIMESTAMP() |     返回当前系统日期和时间     |
+|                          UTC_DATE()                          |  返回UTC（世界标准时间）日期   |
+|                          UTC_TIME()                          |  返回UTC（世界标准时间）时间   |
+
+举例
+
+```
+SELECT CURDATE(),CURTIME(),NOW(),SYSDATE()+0,UTC_DATE(),UTC_DATE()+0,UTC_TIME(),UTC_TIME()+0
+FROM DUAL;
+```
+
+##### 4.6.2 日期和时间戳的转换
+
+| 函数                     | 用法                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| UNIX_TIMESTAMP()         | 以UNIX时间戳的形式返回当前时间。SELECT UNIX_TIMESTAMP()->1634348884 |
+| UNIX_TIMESTAMP(date)     | 将时间date以UNIX时间戳的形式返回。                           |
+| FROM_UNIXTIME(timestamp) | 将UNIX时间戳的时间转换为普通格式的时间                       |
+
+举例
+
+```
+SELECT UNIX TIMESTAMP (
+FROM UNIXTIME (1635173853),UNIX TIMESTAMP('2021-10-0112:12:32')
+FROM DUAL;
+```
+
+
+
+##### 4.6.3 获取月份、星期、星期数、天数等
+
+|                 函数                 |                      用法                       |
+| :----------------------------------: | :---------------------------------------------: |
+|   YEAR(date)/MONTH(date)/DAY(date)   |                返回具体的日期值                 |
+| HOUR(time)/MINUTE(time)/SECOND(time) |                返回具体的时间值                 |
+|           MONTHNAME(date)            |               返回月份：January,…               |
+|            DAYNAME(date)             |       返回星期几：MONDAY,TUESDAY...SUNDAY       |
+|            WEEKDAY(date)             |  返回周几，注意，周1是0，周2是1，。。。周日是6  |
+|            QUARTER(date)             |          返回日期对应的季度，范围为1~4          |
+|     WEEK(date),WEEKOFYEAR(date)      |               返回一年中的第几周                |
+|           DAYOFYEAR(date)            |            返回日期是一年中的第几天             |
+|           DAYOFMONTH(date)           |          返回日期位于所在月份的第几天           |
+|           DAYOFWEEK(date)            | 返回周几，注意：周日是1，周一是2，。。。周六是7 |
+
+##### 4.6.4 日期的操作函数
+
+|          函数           |                   用法                   |
+| :---------------------: | :--------------------------------------: |
+| EXTRACT(type FROM date) | 返回指定期中特定的部分，type指定返回的值 |
+
+##### 4.6.5 时间和秒钟的转换函数
+
+|         函数         |                             用法                             |
+| :------------------: | :----------------------------------------------------------: |
+|  TIME_TO_SEC(time)   | 将time转化为秒并返回结果值。转化的公式为：小时*3680+分钟*60+秒 |
+| SEC_TO_TIME(seconds) |         将seconds描述转化为包含小时、分钟和秒的时间          |
+
+##### 4.6.6 计算时间和日期的函数
+
+part 1
+
+|                             函数                             |                      用法                      |
+| :----------------------------------------------------------: | :--------------------------------------------: |
+|            DATE_ADD(datetime,INTERVAL expr type),            | 返回与给定日期时间相差INTERVAL时间段的日期时间 |
+| DATE_SUB(date,INTERVAL expr type),SUBDATE(date,INTERVAL expr type) |      返回与date相差INTERVAL时间间隔的日期      |
+
+part 2
+
+|             函数             |                             用法                             |
+| :--------------------------: | :----------------------------------------------------------: |
+|     ADDTIME(time1,time2)     | 返回time1加上time2的时间。当time2为一个数字时，代表的是秒，可以为负数 |
+|     SUBTIME(time1,time2)     | 返回time1减去time2后的时间。当time2为一个数字时，代表的是秒，可以为负数 |
+|    DATEDIFF(date1,date2)     |                返回date1~date2的日期间隔天数                 |
+|    TIMEDIFF(time1,time2)     |                  返回time1-time2的时间间隔                   |
+|         FROM_DAYS(N)         |             返回从0000年1月1日起，N天以后的日期              |
+|        TO_DAYS(date)         |              返回日期date距离0000年1月1日的天数              |
+|        LAST_DAY(date)        |               返回date所在月份的最后一天的日期               |
+|       MAKEDATE(year,n)       |          针对给定年份与所在年份中的天数返回一个日期          |
+| MAKETIME(hour,minute,second) |            将给定的小时、分钟和秒组合成时间并返回            |
+|      PERIOD_ADD(time,n)      |                    返回time加上n后的时间                     |
+
+
+
+##### 4.6.7 日期和时间的格式化
+
+|               函数                |                    用法                    |
+| :-------------------------------: | :----------------------------------------: |
+|       DATE_FORMAT(date,fmt)       |       按照字符串fmt格式化日期date值        |
+|       TIME_FORMAT(time,fmt)       |       按照字符串fmt格式化时间time值        |
+| GET_FORMAT(date_type,format_type) |          返回日期字符串的显示格式          |
+|       STR_TO_DATE(str,fmt)        | 按照字符串fmt对str进行解析，解析为一个日期 |
+
+
+
+
+
+### 4.7 存储引擎
 
 查看当前使用引擎
 
