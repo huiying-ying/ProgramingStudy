@@ -759,7 +759,7 @@ create table t_student(            // 子表
 |                   CURTIME(),CURRENT_TIME()                   | 返回当前时间，只包含时、分、秒 |
 | NOW()/SYSDATE()/CURRENT_TIMESTAMP()/LOCALTIME()/LOCALTIMESTAMP() |     返回当前系统日期和时间     |
 |                          UTC_DATE()                          |  返回UTC（世界标准时间）日期   |
-|                          UTC_TIME()                          |  返回UTC（世界标准时间）时间   |
+|                          UTC_TIME()                          |   返回UTC（世界标准时间）时,   |
 
 举例
 
@@ -767,6 +767,13 @@ create table t_student(            // 子表
 SELECT CURDATE(),CURTIME(),NOW(),SYSDATE()+0,UTC_DATE(),UTC_DATE()+0,UTC_TIME(),UTC_TIME()+0
 FROM DUAL;
 ```
+
+```
+SELECT CURDATE(),CURDATE()+0,CURTIME()+0,NOW()+0
+FROM DUAL;
+```
+
+
 
 ##### 4.6.2 日期和时间戳的转换
 
@@ -779,12 +786,10 @@ FROM DUAL;
 举例
 
 ```
-SELECT UNIX TIMESTAMP (
+SELECT UNIX TIMESTAMP (),
 FROM UNIXTIME (1635173853),UNIX TIMESTAMP('2021-10-0112:12:32')
 FROM DUAL;
 ```
-
-
 
 ##### 4.6.3 获取月份、星期、星期数、天数等
 
@@ -801,11 +806,54 @@ FROM DUAL;
 |           DAYOFMONTH(date)           |          返回日期位于所在月份的第几天           |
 |           DAYOFWEEK(date)            | 返回周几，注意：周日是1，周一是2，。。。周六是7 |
 
+```
+SELECT YEAR（CURDATE()） MONTH（CURDATE()）， DAY（CURDATE()）
+HOUR( CURTIME() ），MINUTE（NOW ()） SECOND（SYSDATE()）
+FROM DUAL；
+```
+
+
+
 ##### 4.6.4 日期的操作函数
 
 |          函数           |                   用法                   |
 | :---------------------: | :--------------------------------------: |
 | EXTRACT(type FROM date) | 返回指定期中特定的部分，type指定返回的值 |
+
+其中 type 的取值有多种
+
+|      type取值      |             含义             |
+| :----------------: | :--------------------------: |
+|    MICROSECOND     |          返回毫秒数          |
+|       SECOND       |           返回秒数           |
+|       MINUTE       |          返回分钟数          |
+|        HOUR        |          返回小时数          |
+|        DAY         |           返回天数           |
+|        WEEK        | 返回日期在一年中的第几个星期 |
+|       MONTH        |  返回日期在一年中的第几个月  |
+|      QUARTER       | 返回日期在一年中的第几个季度 |
+|        YEAR        |        返回日期的年份        |
+| SECOND_MICROSECOND |        返回秒和毫秒值        |
+| MINUTE_MICROSECOND |       返回分钟和毫秒值       |
+|   MINUTE_SECOND    |        返回分钟和秒值        |
+|  HOUR_MICROSECOND  |       返回小时和毫秒值       |
+|    HOUR_SECOND     |        返回小时和秒值        |
+|    HOUR_MINUTE     |       返回小时和分钟值       |
+|  DAY_MICROSECOND   |        返回天和毫秒值        |
+|     DAY_SECOND     |         返回天和秒值         |
+|     DAY_MINUTE     |        返回天和分钟值        |
+|      DAY_HOUR      |         返回天和小时         |
+|     YEAR_MONTH     |          返回年和月          |
+
+
+举例
+
+```
+SELECT EXTRACT (SECOND FROM NOW ()
+FROM DUAL;
+```
+
+
 
 ##### 4.6.5 时间和秒钟的转换函数
 
@@ -813,6 +861,16 @@ FROM DUAL;
 | :------------------: | :----------------------------------------------------------: |
 |  TIME_TO_SEC(time)   | 将time转化为秒并返回结果值。转化的公式为：小时*3680+分钟*60+秒 |
 | SEC_TO_TIME(seconds) |         将seconds描述转化为包含小时、分钟和秒的时间          |
+
+举例
+
+```
+SELECT TIME TO SEC (CURTIME ())
+SEC TO TIME (83355)
+FROM DUAL;
+```
+
+
 
 ##### 4.6.6 计算时间和日期的函数
 
@@ -822,6 +880,23 @@ part 1
 | :----------------------------------------------------------: | :--------------------------------------------: |
 |            DATE_ADD(datetime,INTERVAL expr type),            | 返回与给定日期时间相差INTERVAL时间段的日期时间 |
 | DATE_SUB(date,INTERVAL expr type),SUBDATE(date,INTERVAL expr type) |      返回与date相差INTERVAL时间间隔的日期      |
+
+举例
+
+```
+SELECT NOW(),DATE ADD (NOW(),INTERVAL 1 YEAR)
+FROM DUAL;
+```
+
+```
+SELECT DATE_ADD('2021-10-2123:32:12',INTERVAL 1 SECOND)
+FROM DUAL;
+```
+
+```
+SELECT DATE_ADD ('2021-10-21 23:32:12',INTERVAL '1_1' MINUTE_SECOND)
+FROM DUAL;
+```
 
 part 2
 
@@ -838,6 +913,15 @@ part 2
 | MAKETIME(hour,minute,second) |            将给定的小时、分钟和秒组合成时间并返回            |
 |      PERIOD_ADD(time,n)      |                    返回time加上n后的时间                     |
 
+举例
+
+```
+SELECT ADDTIME(NOW(),20),SUBTIME(NOW(),30),SUBTIME(NOW(),'1:1:3'),DATEDIFF(NOW(),'2021-10-01'),
+TIMEDIFF(N0W(),'2021-10-25 22:10:10'),FR0M_DAYS(366),T0_DAYS('0000-12-25'),
+LAST_DAY(NOW()),MAKEDATE(YEAR(NOW()),12),MAKETIME(10,21,23),PERIOD_ADD(20200101010101,10)
+FROM DUAL;
+```
+
 
 
 ##### 4.6.7 日期和时间的格式化
@@ -849,7 +933,71 @@ part 2
 | GET_FORMAT(date_type,format_type) |          返回日期字符串的显示格式          |
 |       STR_TO_DATE(str,fmt)        | 按照字符串fmt对str进行解析，解析为一个日期 |
 
+格式化字符
 
+| 格式符 | 说明                                                      | 格式符 | 说明                                                      |
+| ------ | --------------------------------------------------------- | ------ | --------------------------------------------------------- |
+| %Y     | 4位数字表示年份                                           | %y     | 两位数字表示年份                                          |
+| %M     | 月名表示月份(January,…)                                   | %m     | 两位数字表示月份(01,02,03。。。)                          |
+| %b     | 缩写的月名(Jan.,Feb.,…)                                   | %c     | 数字表示月份(1,2,3…)                                      |
+| %D     | 英文后缀表示月中的天数(1st,2nd,3rd…)                      | %d     | 两位数字表示月中的天数(01,02…)                            |
+| %e     | 数字形式表示月中的天数(1,2,3,4,5…)                        |        |                                                           |
+| %H     | 两位数字表示小数，24小时制(01,02)                         | %h和%I | 两位数字表示小时，12小时制(01,02)                         |
+| %k     | 数字形式的小时，24小时制(1,2,3)                           | %l     | 数字形式表示小时，12小时制(1,2,3,4…)                      |
+| %i     | 两位数字表示分钟(00,01,02)                                | %S和%s | 两位数字表示秒(00,01,02.…)                                |
+| %W     | 一周中的星期名称(Sunday..)                                | %a     | 一周中的星期缩写(Sun.,Mon.,Tues.,…)                       |
+| %w     | 以数字表示周中的天数（0=Sunday1=Monday..)                 |        |                                                           |
+| %j     | 以3位数字表示年中的天数(001,002...)                       | %U     | 以数字表示年中的第几周，(1,2,3。。)其中Sunday为周中第一天 |
+| %u     | 以数字表示年中的第几周，(1,2,3。。)其中Monday为周中第一天 |        |                                                           |
+| %T     | 24小时制                                                  | %r     | 12小时制                                                  |
+| %p     | AM或PM                                                    | %%     | 表示%                                                     |
+
+举例
+
+```
+SELECT DATE_FORMAT (CURDATE(),‘%Y-%M-%D'),
+DATE_FORMAT(NOW(),'%Y-%m-%d'),TIME_FORMAT(CURTIME(),'%h:%i:%S'),
+DATE_FORMAT(NOW(),'%Y-%m-%d %h:%i:%S %W %w %T %r')
+FROM DUAL;
+```
+
+解析
+
+```
+SELECT STR_TO_DATE('2021-October-25th 11:34:42 Monday 1','%Y-%m-%d %h:%i:%S %W %w')
+FROM DUAL;
+```
+
+| 日期类型 | 格式化类型 | 返回的格式化字符串 |
+| :------: | :--------: | :----------------: |
+|   DATE   |    USA     |      %m.%d.%Y      |
+|   DATE   |    JIS     |      %Y-%m-%d      |
+|   DATE   |    ISO     |      %Y-%m-%d      |
+|   DATE   |    EUR     |      %d.%m.%Y      |
+|   DATE   |  INTERNAL  |       %Y%m%d       |
+|   TIME   |    USA     |     %h:%i:%s%p     |
+|   TIME   |    JIS     |      %H:%i:%s      |
+|   TIME   |    ISO     |      %H:%i:%s      |
+|   TIME   |  INTERNAL  |       %H%i%s       |
+| DATETIME |    USA     | %Y-%m-%d %H.%i.%s  |
+| DATETIME |    JIS     | %Y-%m-%d %H:%i:%s  |
+| DATETIME |    ISO     | %Y-%m-%d %H:%i:%s  |
+| DATETIME |    EUR     | %Y-%m-%d %H.%i.%s  |
+| DATETIME |  INTERNAL  |    %Y%m%d%H%i%s    |
+
+举例
+
+```
+SELECT GET FORMAT (DATE,'USA')
+FROM DUAL;
+```
+
+应用
+
+```
+SELECT DATE FORMAT (CURDATE(),GET_FORMAT (DATE,'USA'))
+FROM DUAL;
+```
 
 
 
