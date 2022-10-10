@@ -193,6 +193,7 @@ class CenterForm(QMainWindow):
         newLeft = (screen.width() - size.width()) / 2
         newTop = (screen.height()- size.height()) / 2
         self.move(newLeft, newTop)
+        
 if __name__=='__main__':
     # 创建QApplication类的实例
     app = QApplication(sys.argv)
@@ -495,7 +496,7 @@ if __name__=='__main__':
 
 ![image-20220925010358720](imgs/QT/image-20220925010358720.png)
 
-shijian
+添加事件
 
 ![image-20220925010532956](imgs/QT/image-20220925010532956.png)
 
@@ -553,3 +554,7 @@ QtWebKitWidgets 是老版的代码，新版需要替换成 QtWebEngineWidgets �
 ![image-20220921142842228](imgs\Qt\image-20220921142842228.png)
 
 [GitHub热榜第一，标星近万：这个用Python做交互式图形的项目火了 - 腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1461931?from=article.detail.1487043)
+
+绘制树形展开图的网址
+
+https://llimllib.github.io/pymag-trees/
