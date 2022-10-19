@@ -949,3 +949,47 @@ Redis事务的主要作用就是串联多个命令防止别的命令插队
 取消WATCH命令对所有key的监视。
 
 如果在执行WATCH命令之后，EXEC命令或DISCARD命令先被执行了的话，那么就不需要再执行UNWATCH了。
+
+### 报错（未解决）
+
+MISCONF Redis is configured to save RDB snapshots, but it's currently unable to persist to disk. Commands that may modify the data set are disabled, because this instance is configured to report errors during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option). Please check the Redis logs for details about the RDB error.
+
+错误的Redis配置为保存RDB快照，但当前无法在磁盘上持久化。禁用可能修改数据集的命令，因为此实例配置为在RDB快照失败时报告写入期间的错误（在bgsave error选项上停止写入）。有关RDB错误的详细信息，请查看Redis日志。
+
+redis.conf 配置文件中的 stop-writes-on-bgsave-error 后边由yes改为no，但这种方法治标不治本，只是保证了不报错而已。
+
+### 8.4 Redis事务三特性
+
+- 单独的隔离操作
+
+  事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。
+
+- 没有隔离级别的概念
+
+  队列中的命令没有提交之前都不会实际被执行，因为事务提交前任何指令都不会被实际执行。
+
+- 不保证原子性
+
+  事务中如果有一条命令执行失败，其后的命令仍然会被执行，没有回滚。
+
+### 8.5 秒杀程序实例
+
+#### 安装并发模拟工具ab
+
+yum install httpd-tools
+
+#### ab使用操作
+
+```
+ab --help   查看使用帮助
+```
+
+![image-20221019140922097](imgs/Redis/image-20221019140922097.png)
+
+##### 常用操作示例
+
+```
+ab -n 1000 -c 100 http://192.168.137.1:8080/seckill
+```
+
+其中 -n 后的1000表示共有1000条请求，-c 后的100表示并发时有100条请求。
