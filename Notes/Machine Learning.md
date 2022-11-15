@@ -304,3 +304,17 @@ de-noising encoder
 其他异常检测的介绍
 
 ![image-20220829164934201](imgs\Machine Learning\image-20220829164934201.png)
+
+
+
+
+
+# Triplet 损失函数
+
+![image-20221112175133330](imgs/Machine Learning/image-20221112175133330.png)
+
+# Learning To Rank算法和评价指标
+
+PointWise，PairWise，ListWise
+
+[Learning To Rank算法和评价指标 - 首席CTO笔记 (shouxicto.com)](https://www.shouxicto.com/article/1465.html)

@@ -48,7 +48,7 @@
 
 3. ###### mongoDB
 
-   高性能、开源、模式自由（schema free)的文档型数据库；数据都在内存中，如果内存不足，把不常用的数据保存到硬盘；虽然是key-value模式，但是对value(尤其是json)是供了丰富的查询功能；支持二进制数据及大型对象；可以根据数据的特点替代RDBMS，成为独立的数据库；或者配合RDBMS,存储特定的数据。
+   高性能、开源、模式自由（schema free)的文档型数据库；数据都在内存中，如果内存不足，把不常用的数据保存到硬盘；虽然是key-value模式，但是对value(尤其是json)是供了丰富的查询功能；支持二进制数据及大型对象；可以根据数据的特点替代RDBMS，成为独立的数据库；或者配合RDBMS，存储特定的数据。
 
  
 
@@ -976,6 +976,8 @@ redis.conf 配置文件中的 stop-writes-on-bgsave-error 后边由yes改为no�
 
 #### 安装并发模拟工具ab
 
+**用于模拟多并发操作**
+
 yum install httpd-tools
 
 #### ab使用操作
@@ -993,3 +995,155 @@ ab -n 1000 -c 100 http://192.168.137.1:8080/seckill
 ```
 
 其中 -n 后的1000表示共有1000条请求，-c 后的100表示并发时有100条请求。
+
+-p 是提交的参数的配饰，-T 是内容类型。
+
+##### 通过ab测试
+
+vim postfile   模拟表单提交参数，以&符号结尾；存放当前目录。
+内容：prodid=0101&
+
+```
+# -p ~/postfile 文件在当前目录下
+# http://192.168.140.1:8080/seckill/doseckill  是当前主机的ip地址和路径
+
+ab -n 1000 -c 100 -p ~/postfile -T application/x-www-form-urlencoded
+http://192.168.140.1:8080/seckill/doseckill
+```
+
+![image-20221106104710373](imgs/Redis/image-20221106104710373.png)
+
+由此可验证出现**超卖**和**连接超时的问题**：
+
+###### 连接超时
+
+由于并发请求太多，有些请求需要等待，等待时间太长就超时了
+
+- 链接池参数
+  - MaxTotal：控制一个pool可分配多少个 jedis 实例，通过 pool.getResource() 来获取；如果赋值为 -1，则表示不限制；如果 pool 已经分配了 Max Total 个 jedis 实例，则此时 pool 的状态为 exhausted。
+  - maxIdle：控制一个pool最多有多少个状态为idle（空闲）的jedis实例；’
+  - MaxWaitMillis：表示当 borrow 一个 jedis 实例时，最大的等待毫秒数，如果超过等待时间，则直接抛JedisConnectionException；
+
+```java
+// 2 连接redis
+        //Jedis jedis = new Jedis("192.168.25.128", 6379);
+        // 在设计好了连接池类之后，获得它相应的对象
+        JedisPool jedisPoolInstance = JedisPoolUtil.getJedisPoolInstance();
+        Jedis jedis = jedisPoolInstance.getResource();
+```
+
+###### 超卖
+
+秒杀库存出现负数的情况
+
+①  监视库存
+
+```java
+// 监视库存
+jedis.watch(kcKey);
+```
+
+②  执行
+
+```java
+// 使用事务
+Transaction multi = jedis.multi();
+
+//组队操作
+multi.decr(kcKey);
+multi.sadd(userKey, uid);
+
+// 执行
+List<Object> result = multi.exec();
+if(result == null || result.size()==0){
+    System.out.println("秒杀失败了");
+    jedis.close();
+    return false;
+}
+```
+
+###### 库存遗留问题
+
+因乐观锁当前版本与历史版本不一致，导致后来访问的都没有成功，所以库存明明还有但是缺无法购买成功。
+
+**LUA脚本语言**
+
+Lua是一个小巧的脚本语言，Lua脚本可以很容易的被CC+代码调用，也可以反过来调用c/C+的函数，Lua并没有提供强大中的库，一个完整的Lua解释器不过200k,所以Lua不适合作为开发独立应用程序的语言，而是作为**嵌入式脚本语言**。
+
+很多应用程序、游戏使用LUA作为自己的嵌入式脚本语言，以此来实现可配置性、可扩展性。
+
+这其中包括魔兽争霸地图、魔兽世界、博德之门、愤怒的小鸟等众多游戏插件或外挂。
+
+**LUA脚本在Redis中的优势**
+
+将复杂的或者多步的redis操作，写为一个脚本，一次提交给redis执行，减少反复连接redis的次数。提升性能。
+
+LUA脚本是类似redis事务，有一定的原子性，不会被其他命令插队，可以完成一些redis事务性的操作。
+
+但是注意redis的1ua脚本功能，只有在Redis2.6以上的版本才可以使用。
+
+利用 LUA 脚本淘汰用户，解决超卖问题。
+
+redis2.6版本以后，通过 LUA 脚本**解决争抢问题**，实际上是 redis 利用其**单线程的特性，用任务队列的方式解决多任务并发问题**。
+
+
+
+```LUA
+local userid=KEYS[1];    // 定义了2个变量
+local prodid=KEYS[2];
+local qtkey="sk:"..prodid..":qt";   // 拼接字符串
+local usersKey="sk:"..prodid.":usr';
+local userExists=redis.call("sismember",usersKey,userid);   // 判断用户在当前的清单中是否存在
+if tonumber(userExists)==1 then
+    return 2;                            // 2：表示已经秒杀到商品了
+end
+local num=redis.call("get",qtkey);       // 判断库存
+if tonumber(num)<=0 then                 // 库存小于0
+    return 0;                            // 0：秒杀失败
+else
+    redis.call("decr",qtkey);            // 减库存
+    redis.call("sadd",userKey,userid);   // 添加到用户清单
+end
+return 1;                                // 1：秒杀成功                
+```
+
+###### 这一部分并没有实操
+
+## 9 持久化操作
+
+持久化操作指的是内存到硬盘
+
+Redis 提供了2个不同形式的持久化方式
+
+- RDB（Redis DataBase）
+- AOF（Append Of File）
+
+### 9.1 RDB（Redis DataBase）
+
+在 **指定的时间间隔内将内存中的据集快照写入磁盘**，也就是行话讲的 **Snapshot 快照**，它恢复时是将快照文件直窗读到内存里。
+
+#### 备份执行过程
+
+![image-20221107133654584](imgs/Redis/image-20221107133654584.png)
+
+Redis 会单独创建**(fork)**一个子进程来进行持久化，会先将据写入到一个临时文件中，待持久化过程都结束了，再用这个临时文件替换上次持久化好的文件。整个过程中，主进程是不进行任何 IO 操作的，这就确保了极高的性能如果需要进行大规模数据的恢复，且对于数据恢复的完速整性不是非常敏感，那 DB 方式要比 AOF 方式更加的高效。
+
+RDB的**缺点是最后一次持久化后的数据可能丢失**。
+
+##### Fork
+
+Fork 的作用是复制一个与当前进程一样的进程。新进程的所有数据（变量、环境变量程序计数器等）数值都和原进程致，但是是一个全新的进程，并作为原进程的子进程
+
+在 Linux 程序中，Fork 会产生一个和进程完全相同的子进程，但子进程在此后多会 exec 系统调用，出于效率考虑，Linux 中引入了**“写时复制技求“**
+
+一般情况父进程和子进程会共用同一段物理内存，只有进程空间的各段的内容要发生变化时，才会将父进程的内容复制一份给子进程。
+
+##### 流程
+
+![image-20221107133943385](imgs/Redis/image-20221107133943385.png)
+
+##### 配置
+
+### 9.2 AOF（Append Of File）
+
+![image-20221115213251728](imgs/Redis/image-20221115213251728.png)
