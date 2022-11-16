@@ -6,6 +6,9 @@ ArrayList 添加一个集合
 
 ArrayList 删除一个元素（直接删除它本身）
 
+Array 取数组的子数组
+
 ## 犯错误
 
 遍历集合时用到了remove函数，那么 **for each** 和 **iterator** 会报错
+
