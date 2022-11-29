@@ -590,6 +590,40 @@ byType（根据属性类型注入）——注入值bean类型和类属性一样
 </beans>
 ```
 
+**配置细节**
+
+```xml
+<!--开启组件扫描-->
+    <!--示例1-->
+    <context:component-scan base-package="com.spring.service" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springfranmework.stereotype.Controller"/>
+	</context:component-scan>
+</beans>
+```
+
+use-default-filters="false" 表示不使用默认的 filter（就是扫描包下的所有类），而是自己配置规则
+
+include-filter 设置扫描哪些内容——
+
+​						type="annotation" expression="org.springfranmework.stereotype.Controller"
+
+​						设置扫描 <<注解为Controller>>
+
+```xml
+<!--开启组件扫描-->
+    <!--示例1-->
+    <context:component-scan base-package="com.spring.service">
+		<context:exclude-filter type="annotation" expression="org.springfranmework.stereotype.Controller"/>
+	</context:component-scan>
+</beans>
+```
+
+exclude-filter 设置不扫描哪些内容——
+
+​						type="annotation" expression="org.springfranmework.stereotype.Controller"
+
+​						设置不扫描 <<注解为Controller>>
+
 - 添加注释
 
 ```java
@@ -605,25 +639,182 @@ public class UserServiceForAop {
 }
 ```
 
+#### 1.4.3 基于注解方式实现属性注入
 
+##### @AutoWired
 
+根据属性类型进行自动注入
 
+1. 把 service 和 dao 对象创建，在 service 和 dao 类添加创建对象
 
+2. 在 service 中注入 dao 对象，在 service 类添加 dao 类型属性，在属性上面使用注解（无需添加set方法）
 
+   ```java
+   @Service
+   public class UserService {
+       @Autowired
+       private UserDao userDao;
+   
+       public void add(){
+           System.out.println("service add ...");
+           userDao.add();
+       }
+   }
+   ```
 
+3. 测试
 
+##### @Qualifier
 
+根据属性名称进行注入
 
+![image-20221127224639311](imgs/Spring/image-20221127224639311.png)
 
+##### @Resourse
 
+两者皆可
 
+```java
+@Resource                          // 根据类型
+@Resource(name = "userDaoImpl01")  // 根据名称
+private UserDao userDao;
+```
 
+##### @Value
 
+针对普通类型输入
 
+```java
+public class UserService {
 
+    @Value(value = "abc")
+    private String name;
+```
 
+#### 1.4.4 完全注解开发
 
+创建配置类，替代 xml 配置文件
 
+```java
+@Configuration
+@ComponentScan(basePackages = {"com.spring.aop"})
+public class SpringConfig {
+}
+```
 
+测试类
 
+```java
+@Test
+public void test02(){
+    ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+    UserService userService = context.getBean("userService", UserService.class);
+    System.out.println(userService);
+    userService.add();
+}
+```
 
+## 2 AOP
+
+### 2.1 概念
+
+(1) 面向切面编程（方面），利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。
+
+(2) 通俗描述：不通过修改源代码方式，在主干功能里面添加新功能
+
+### 2.2 底层原理
+
+#### 2.2.1 动态代理
+
+- 有接口情况——使用 JDK 动态代理
+
+  创建接口的实现类**代理对象**，通过代理对象增强原方法，嫁接新方法
+
+  ![image-20221129202751423](imgs/Spring/image-20221129202751423.png)
+
+- 没有接口情况——使用 CGLIB 动态代理
+
+  创建当前类子类的**代理对象**
+
+  ![image-20221129202808783](imgs/Spring/image-20221129202808783.png)
+
+以 JDK 动态代理实现为例
+
+1. 调用 **newProxyInstance** 方法
+
+   第一参数，类加载器
+   第二参数，增强方法所在的类，这个类实现的接口，支持多个接口
+   第三参数，实现这个接口InvocationHandler,创建代理对象，写增强的方法
+
+2. 编写 JDK 动态代理代码
+
+   （1）创建接口，定义方法
+
+   ```java
+   public interface UserDao {
+       public int add(int a, int b);
+       public String update(String id);
+   }
+   ```
+
+   （2）创建接口实现类，实现方法
+
+   ```java
+   public class UserDaoImpl implements UserDao{
+       @Override
+       public int add(int a, int b) {
+           return a+b;
+       }
+   
+       @Override
+       public String update(String id) {
+           return id;
+       }
+   
+   }
+   ```
+
+   （3）使用 Proxy 类创建接口代理对象
+
+   ```java
+   public class JDKProxy {
+       public static void main(String[] args) {
+           // 创建接口实现类代理对象
+           Class[] interfaces = {UserDao.class};
+           UserDaoImpl userDao = new UserDaoImpl();
+           UserDao dao = (UserDao)Proxy.newProxyInstance(JDKProxy.class.getClassLoader(), interfaces, new UserDaoProxy(userDao));
+           int result = dao.add(1,2);
+           System.out.println("result:" + result);
+       }
+   }
+   
+   // 创建代理对象代码
+   class UserDaoProxy implements InvocationHandler{
+       // 1 把创建的是谁的代理对象，把谁传递过来
+       // 有参数构造传递
+       private Object obj;
+       public UserDaoProxy(Object obj){
+           this.obj = obj;
+       }
+       // 增强的逻辑
+       @Override
+       public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+           // 方法之前
+           System.out.println("方法之前执行。。。" + method.getName() + ":传递的参数" + Arrays.toString(args));
+           // 被增强的方法执行
+           Object res = method.invoke(obj, args);
+           // 方法之后
+           System.out.println("方法之后执行。。。" + obj);
+   
+           return res;
+       }
+   }
+   ```
+
+### 2.3 术语
+
+1. 连接点
+2. 切入点
+3. 通知（逻辑）
+
+4. 
