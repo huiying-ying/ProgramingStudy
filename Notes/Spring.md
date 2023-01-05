@@ -814,7 +814,291 @@ public void test02(){
 ### 2.3 术语
 
 1. 连接点
+
+   类里面**可以被增强**的方法就是连接点
+
 2. 切入点
+
+   类里面实际**被增强了的**方法就是切入点
+
 3. 通知（逻辑）
 
-4. 
+   实际**增强的逻辑部分**被称为通知
+
+   包括5种类型：
+
+   - 前置通知
+
+   - 后置通知
+
+   - 围绕通知
+
+   - 异常通知
+
+   - 最终通知
+
+4. 切面
+
+   动作，把**通知应用到切入点**的过程
+
+### 2.4 AOP操作
+
+#### 2.4.1 准备
+
+1. AspectJ  --AspectJ 不是 Spring 组成部分，独立 AOP 框架，一般把 Aspect 和 Spring 框架一起使用，进
+   行AOP操作
+
+2. 基于 AspectJ 实现 AOP 操作
+
+   (1)基于 xml 配置文件实现
+
+   (2)基于注解方式实现（使用）
+
+3. 导入 AOP 相关依赖
+
+![image-20221130105326605](imgs/Spring/image-20221130105326605.png)
+
+4. 切入点表达式
+
+   知道对哪个类当中的哪个方法进行增强
+
+   语法结构：
+
+   ```
+   execution([权限修饰符][返回类型][类全路径][方法名称]([参数列表]))
+   ```
+
+   举例1：对 com.spring.dao.BookDao 类里的 add 进行增强
+
+   ```
+   execution(* com.spring.dao.BookDao.add())
+   ```
+
+   举例2：对 com.spring.dao.BookDao 类里的**所有方法**进行增强
+
+   ```
+   execution(* com.spring.dao.BookDao.*())
+   ```
+
+   举例3：对 com.spring.dao包里的**所有类里的所有方法**进行增强
+
+   ```
+   execution(* com.spring.dao.*.*())
+   ```
+
+
+#### 2.4.2 AspectJ注解
+
+1. 创建类，在其中定义方法
+
+   ```java
+   public class User {
+       public void add(){
+           System.out.println("add...");
+       }
+   }
+   ```
+
+2. 创建增强类
+
+   ```java
+   public class UserProxy {
+       // 前置通知
+       public void before(){
+           System.out.println("before...");
+       }
+   }
+   ```
+
+3. 进行通知的配置
+
+   - 在 spring 配置文件中，开启注解扫描
+
+     ```xml
+     <?xml version="1.0" encoding="UTF-8"?>
+     <beans xmlns="http://www.springframework.org/schema/beans"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:context="http://www.springframework.org/schema/context"
+            xmlns:aop="http://www.springframework.org/schema/aop"
+            xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                                http://www.springframework.org/schema/context http://www.springframework.org/schema/beans/spring-context.xsd
+                                http://www.springframework.org/schema/aop http://www.springframework.org/schema/beans/spring-aop.xsd">
+     
+         <!--开启注解扫描-->
+         <context:component-scan base-package="com.spring.aop.aopanno"></context:component-scan>
+     </beans>
+     ```
+
+   - 使用注解创建 User 和 UserProxy 对象
+
+     ```java
+     @Component
+     public class User {
+         public void add(){
+             System.out.println("add...");
+         }
+     }
+     ```
+
+     
+
+     ```java
+     // 增强的类
+     @Component
+     public class UserProxy {
+         // 前置通知
+         public void before(){
+             System.out.println("before...");
+         }
+     }
+     ```
+
+   - 在增强类上面添加注解@Aspect
+
+     ```java
+     // 增强的类
+     @Component
+     @Aspect  // 生成代理对象
+     public class UserProxy {
+         // 前置通知
+         public void before(){
+             System.out.println("before...");
+         }
+     }
+     ```
+
+   - 在 spring 配置文件中开启生成代理对象
+
+     ```xml
+     <!--开启注解扫描-->
+     <context:component-scan base-package="com.spring.aop.aopanno"></context:component-scan>
+     <!--开启Aspect生成代理对象-->
+     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+     ```
+
+4. 配置不同类型的通知
+
+   在增强类的里面，在作为通知方法上面添加类型注解，使用切入点表达式配置
+
+   ```java
+   // 增强的类
+   @Component
+   @Aspect  // 生成代理对象
+   public class UserProxy {
+       // 前置通知
+       // Before注解表示作为前置通知
+       @Before(value = "execution(* com.spring.aop.aopanno.User.add(..))")
+       public void before(){
+           System.out.println("before...");
+       }
+   
+       @After(value = "execution(* com.spring.aop.aopanno.User.add(..))")
+       public void after(){
+           // 在方法之后执行
+           System.out.println("after...");
+       }
+   
+       @AfterReturning(value = "execution(* com.spring.aop.aopanno.User.add(..))")
+       public void afterReturning(){
+           // 在方法返回结果之后执行
+           System.out.println("afterReturning...");
+       }
+   
+       @AfterThrowing(value = "execution(* com.spring.aop.aopanno.User.add(..))")
+       public void afterThrowing(){
+           System.out.println("afterThrowing...");
+       }
+   
+       @Around(value = "execution(* com.spring.aop.aopanno.User.add(..))")
+       public void around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
+           System.out.println("环绕之前...");
+           // 被增强的方法执行
+           proceedingJoinPoint.proceed();
+           
+           System.out.println("环绕之后...");
+       }
+   }
+   ```
+
+5. 公共切入点抽取
+
+   ```java
+   // 相同切入点抽取
+   @Pointcut(value = "execution(* com.spring.aop.aopanno.User.add(..))")
+   public void pointdemo(){
+   
+   }
+   // 前置通知
+   // Before注解表示作为前置通知
+   @Before(value = "pointdemo()")
+   public void before(){
+       System.out.println("before...");
+   }
+   ```
+
+6. 有多个增强类对同一个方法进行增强，设置增强类优先级
+
+   在增强类上面添加注解@Order，设置数字类型值越小优先级越高
+
+   ```java
+   // 增强的类
+   @Component
+   @Aspect  // 生成代理对象
+   @Order(1)
+   public class UserProxy {
+   ```
+
+7. 补充：完全使用注解开发（无需创建xml文件）
+
+   ```java
+   @Configuration
+   @ComponentScan(basePackages = "com.spring.aop.config")
+   @EnableAspectJAutoProxy(proxyTargetClass = true)
+   public class ConfigAop {
+   
+   }
+   ```
+
+#### 2.4.3 AspectJ配置文件
+
+1. 创建两个类，包括增强类和被增强类，创建方法
+
+2. 在 spring 配置文件中创建两个类对象
+
+   ```xml
+   <!--创建对象-->
+   <bean id="book" class="com.spring.aop.aopxml.Book"></bean>
+   <bean id="bookproxy" class="com.spring.aop.aopxml.BookProxy"></bean>
+   ```
+
+3. 在 spring 配置文件中配置切入点
+
+   ```xml
+   <!--创建对象-->
+   <bean id="book" class="com.spring.aop.aopxml.Book"></bean>
+   <bean id="bookproxy" class="com.spring.aop.aopxml.BookProxy"></bean>
+   <!--配置aop增强-->
+   <aop:config>
+       <!--切入点-->
+       <aop:pointcut id="p" expression="execution(* com.spring.aop.aopxml.Book.add(..))"/>
+       <!--配置切面-->
+       <aop:aspect ref="bookproxy">
+           <!--增强作用在具体方法上-->
+           <aop:before method="before" pointcut-ref="p"></aop:before>
+       </aop:aspect>
+   </aop:config>
+   ```
+
+## 3 JdbcTemplate
+
+### 3.1 概念和准备
+
+1. JdbcTemplate
+
+   Spring框架对 JDBC 进行封装，使用 JdbsTemplate 方便实现对数据库操作
+
+2. 准备工作
+
+   引入依赖
+
+   ![image-20221207154754437](imgs/Spring/image-20221207154754437.png)
