@@ -85,6 +85,8 @@ MyBatis版本：MyBatis3.5.7
 核心配置文件主要用于配置连接数据库的环境以及MyBatis的全局配置信息
 核心配置文件存放的位置是src/main/resources目录下
 
+![image-20230112183423960](imgs/Mybatis/image-20230112183423960.png)
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
@@ -158,7 +160,7 @@ MyBatis映射文件存放的位置是src/maln/resources/mappers目录下
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis?characterEncoding=utf8"/>  // 这里和教程有差别，？之后的部分不加的话会报错，这里说的是编码的问题要明确一下，猜测可能是mysql版本造成的
                 <property name="username" value="root"/>
                 <property name="password" value="suxujia520"/>
             </dataSource>
@@ -181,7 +183,7 @@ MyBatis映射文件存放的位置是src/maln/resources/mappers目录下
 
 ![image-20230112160554629](imgs/Mybatis/image-20230112160554629.png)
 
-##### 测试
+##### 6 通过junit测试功能
 
 ```java
 package com.mybatis.test;**
@@ -204,7 +206,8 @@ public class MyBatisTest001 {
         SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
         // 获取SqlSessionFactory
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(is);
-        // 获取SqlSession
+        // 获取SqlSession(默认不自动提交事务，若要自动提交事务，可以是)
+        // sqlSessionFactory.openSession(true);
         SqlSession sqlSession = sqlSessionFactory.openSession();
         // 获取Mapper接口对象
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
@@ -216,3 +219,191 @@ public class MyBatisTest001 {
     }
 }
 ```
+
+##### 7 加入log4j日志功能
+
+###### 加入依赖
+
+```xml
+<!--Log4j日志-->
+<dependency>
+    <groupId>log4j</groupId>
+    <artifactId>log4j</artifactId>
+    <version>1.2.17</version>
+</dependency>
+```
+
+###### 加入 log4j 配置文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss,SSs}%m (%F:%L) \n"/>
+        </layout>
+    </appender>
+    <logger name="java.sql">
+        <level value="debug"/>
+    </logger>
+    <logger name="org.apache.ibatis">
+        <level value="info"/>
+    </logger>
+    <root>
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</log4j:configuration>
+```
+
+###### 日志的级别
+
+FATAL(致命>ERROR（错误）>WARN（警告）>INFO（信息）>DEBUG（调试）
+
+从左到右打印的内容越来越详细
+
+###### 附：增删改查映射文件中的例子
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.mapper.UserMapper">
+    <!--int insertUser();-->
+    <insert id="insertUser">
+        insert into t_user values(2, "jack", "123456", 23, 'm', "1234@qq.com")
+--         insert into t_user_another values(1, 'admin')
+    </insert>
+    <!--void updateUser();-->
+    <update id="updateUser">
+        update t_user set username = '张三' where id = 1
+    </update>
+    <!--void deleteUser();-->
+    <delete id="deleteUser">
+        delete from t_user where username = '张三'
+    </delete>
+    <!--User getUserById();
+    查询功能的标签必须设置resultType或resultMap
+    resultType:设置默以的映射关系（字段名和属性名一致）
+    resultMap:设置自定义的映射关肃（字段名和属性名不一致或一对多）-->
+    <select id="getUserById" resultType="com.mybatis.pojo.User">
+        select * from t_user where id = 1
+    </select>
+    <!--List<User> getAllUser();-->
+    <select id="getAllUser" resultType="com.mybatis.pojo.User">
+        select * from t_user
+    </select>
+</mapper>
+```
+
+# 2 核心配置文件详解
+
+简单做了解，之后由springboot管理
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--配置连接数据库的环境-->
+    <!--environments：配置多个连接数据库的环境
+            属性：
+            default：设置默认使用的环境的d
+        -->
+    <environments default="development">
+        <!-- environment:配置某个具体的环凭
+            属性：
+            id:表示连接数据库的环境的唯一标识，不能重复
+        -->
+        <environment id="development">
+            <!--transactionManager:设置事务管理方式
+                属性：
+                type="JDBC MANAGED"
+                JDBC：表示当前环境中，执行SQL时，使用的是JDBC中原生的事务管理方式,事务的提交或回漓需要手动处理
+                MANAGED:被管理，例如spring
+            -->
+            <transactionManager type="JDBC"/>
+            <!--datasource:配置数据源(之后spring会承包)
+            属性：
+            type：设置数据源的类型
+            type="POOLED |UNPOOLED JNDI"
+            POOLED:表示使用故据库连接池缓存数据库连接
+            UNPOOLED:表示不使用数据库连接池
+            JNDI:表示使用上下文中的数据源
+            -->
+            <dataSource type="POOLED">
+                <!--驱动-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!--连接地址-->
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis?characterEncoding=utf8"/>
+                <!--用户名-->
+                <property name="username" value="root"/>
+                <!--密码-->
+                <property name="password" value="suxujia520"/>
+            </dataSource>
+</environment>
+</environments>
+<!--引入映射文件-->
+    <mappers>
+        <mapper resource="mappers/UserMapper.xml"/>
+    </mappers>
+</configuration>
+```
+
+#### 数据库配置文件
+
+##### mybatis_config.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"/>
+   。。。
+   。。。
+            <dataSource type="POOLED">
+                <!--驱动-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <!--连接地址-->
+                <property name="url" value="${jdbc.url}"/>
+                <!--用户名-->
+                <property name="username" value="${jdbc.username}"/>
+                <!--密码-->
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+</environment>
+</environments>
+<!--引入映射文件-->
+    <mappers>
+        <mapper resource="mappers/UserMapper.xml"/>
+    </mappers>
+</configuration>
+```
+
+##### jdbc.properties
+
+```properties
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/mybatis?characterEncoding=utf8
+jdbc.username=root
+jdbc.password=suxujia520
+```
+
+
+
+
+
+
+
+# 3 MyBatis 的增删改查
+
+
+
+# 4 MyBatis获取参数值的两种方式
+
