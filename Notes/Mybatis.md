@@ -303,6 +303,8 @@ FATAL(致命>ERROR（错误）>WARN（警告）>INFO（信息）>DEBUG（调试�
 
 简单做了解，之后由springboot管理
 
+#### mybatis_config.xml 详解
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
@@ -395,15 +397,101 @@ jdbc.username=root
 jdbc.password=suxujia520
 ```
 
+#### 类型别名
 
+```xml
+<configuration>
+    <!--
+    MyBatis核心配置文件中，标签的顺序：
+    properties?,settings?,typeAliases?,typeHandlers?,objectFactory?,
+    objectWrapperFactory?,reflectorFactory?,plugins?,
+    environments?,databaseIdProvider?,mappers?
+    -->
+    <properties resource="jdbc.properties"/>
+    <!--设置类型别名（不区分大小写）-->
+    <typeAliases>
+        <!--<typeAlias type="com.mybatis.pojo.User" ></typeAlias>  &lt;!&ndash;不写就是和类名一样，也就是和下一行效果一样&ndash;&gt;-->
+        <!--<typeAlias type="com.mybatis.pojo.User" alias="User"></typeAlias>-->
+        <!--以包为单位，将包下所有的类型设置默认的类型别名，类名且不区分大小写-->
+        <package name="com.atguigu.mybatis.pojo"/>
+    </typeAliases>
+    <!--typeAlias：设置某个类型的别名
+        属性：
+        type:设置需要设置别名的类型
+        alias：设置某个类型的别名，若不设置该属性，那么该类型拥有默认的别名，且类名不区分大小写
+        -->
+```
 
+运行实例
 
+![image-20230112231404589](imgs/Mybatis/image-20230112231404589.png)
 
+#### 映射文件
 
+```xml
+<!--引入映射文件-->
+<mappers>
+    <!--<mapper resource="mappers/UserMapper.xml"/>-->
+    <!--
+        以包为单位引入映射文件
+        要求：
+        1,mapper接口所在的包要和映射文件所在的包一致
+        2,mapper接口要和映射文件的名字一致
+        -->
+    <package name="com.mybatis.mapper"/>
+</mappers>
+```
 
 # 3 MyBatis 的增删改查
 
+#### 添加
 
+```xml
+<!--int insertUser();-->
+<insert id="insertUser">
+    insert into t_user values(2, "jack", "123456", 23, 'm', "1234@qq.com")
+    --         insert into t_user_another values(1, 'admin')
+</insert>
+```
+
+#### 删除
+
+```xml
+<!--void deleteUser();-->
+<delete id="deleteUser">
+    delete from t_user where username = '张三'
+</delete>
+```
+
+#### 修改
+
+```xml
+<!--void updateUser();-->
+<update id="updateUser">
+    update t_user set username = '张三' where id = 1
+</update>
+```
+
+#### 查询一个实体类对象
+
+```xml
+<!--User getUserById();
+查询功能的标签必须设置resultType或resultMap
+resultType:设置默以的映射关系（字段名和属性名一致）
+resultMap:设置自定义的映射关肃（字段名和属性名不一致或一对多）-->
+<select id="getUserById" resultType="com.mybatis.pojo.User">
+    select * from t_user where id = 1
+</select>
+```
+
+#### 查询集合
+
+```xml
+<!--List<User> getAllUser();-->
+<select id="getAllUser" resultType="com.mybatis.pojo.User">
+    select * from t_user
+</select>
+```
 
 # 4 MyBatis获取参数值的两种方式
 
