@@ -1102,3 +1102,448 @@ public void test02(){
    引入依赖
 
    ![image-20221207154754437](imgs/Spring/image-20221207154754437.png)
+   
+   连接池
+   
+   ```xml
+   <!--数据库连接池-->
+   <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+       <property name="url" value="jdbc:mysql://localhost:3306/user_db"></property>
+       <property name="username" value="root"></property>
+       <property name="password" value="root"></property>
+       <property name="driverClassName" value="com mysql.jdbc.Driver"/>
+   </bean>
+   ```
+
+3. 配置 JdbcTemplate 对象，注入DataSource
+
+   ```xml
+   <!--JdbcTemplate对象-->
+   <bean id="JdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+       <!--注入dataSource对象-->
+       <property name="dataSource" ref="dataSource"></property>
+   </bean>
+   ```
+
+4. 创建service类，创建dao类，在dao注入 JdbcTemplate 对象
+
+   配置文件
+
+   ```xml
+   <!--组件扫描-->
+   <context:component-scan base-package="com.spring.jdbcTemplate"></context:component-scan>
+   ```
+
+   service
+
+   ```java
+   @Service
+   public class BookService {
+       // 注入dao
+       @Autowired
+       private BookDao bookDao;
+   }
+   ```
+
+   Dao
+
+   ```java
+   @Repository
+   public class BookDaoImpl implements BookDao{
+       // 注入JdbcTemplate
+       @Autowired
+       private JdbcTemplate jdbcTemplate;
+   }
+   ```
+
+### 3.2 操作数据库——增删改
+
+#### 3.2.1 对应数据库表创建实体类
+
+```java
+public class User {
+    private String userid;
+    private String username;
+    private String ustatus;
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setUstatus(String ustatus) {
+        this.ustatus = ustatus;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getUstatus() {
+        return ustatus;
+    }
+}
+```
+
+#### 3.2.2 编写 service 和 dao
+
+1. 在 dao 进行数据库添加操作
+
+2. 在调用 JdbcTemplate 对象里面 **update** 方法实现添加操作
+
+   ![image-20230107225002147](imgs/Spring/image-20230107225002147.png)
+
+   两个参数：
+
+   - sql 语句
+   - 可变参数，设置 sql 语句值
+
+   ```java
+   // 添加的方法
+   @Override
+   public void add(User user) {
+       // 1 创建sql语句
+       String sql = "insert into t_user values(?,?,?)";
+       // 2 调用方法实现
+       int update = jdbcTemplate.update(sql, user.getUserid(), user.getUsername(), user.getUstatus());
+       System.out.println(update);  // 返回的是影响的行数
+   }
+   ```
+
+   或者可以
+
+   ```java
+   Object[] args = {user.getUserid(), user.getUsername(), user.getUstatus()};
+   int update = jdbcTemplate.update(sql, args);
+   System.out.println(update);  // 返回的是影响的行数
+   ```
+
+### 3.3 操作数据库——查询
+
+#### 3.3.1 返回一个值
+
+- 编写 service 和 dao 中相应的方法
+
+- 在调用 JdbcTemplate 对象里面 **queryForObject** 方法实现查询操作
+
+  ![image-20230107235956621](imgs/Spring/image-20230107235956621.png)
+
+  两个参数：
+
+  - sql 语句
+  - 返回值的类型
+
+#### 3.3.2 返回对象
+
+- 编写 service 和 dao 中相应的方法
+
+- 在调用 JdbcTemplate 对象里面 **queryForObject** 方法实现查询操作
+
+  ![image-20230108001301430](imgs/Spring/image-20230108001301430.png)
+
+  三个参数：
+
+  - sql 语句
+  - RowMapper 是接口，返回不同类型数据，使用这个接口里面的实现类完成数据封装
+  - sql 语句值
+
+举例一个使用例子
+
+![image-20230108001621712](imgs/Spring/image-20230108001621712.png)
+
+#### 3.3.3 返回集合
+
+- 编写 service 和 dao 中相应的方法
+
+- 在调用 JdbcTemplate 对象里面 **query** 方法实现查询操作
+
+  ![image-20230108002132235](imgs/Spring/image-20230108002132235.png)
+
+  三个参数：
+
+  - sql 语句
+  - RowMapper 是接口，返回不同类型数据，使用这个接口里面的实现类完成数据封装
+  - sql 语句值
+
+![image-20230108002320886](imgs/Spring/image-20230108002320886.png)
+
+### 3.4 操作数据库——批量操作
+
+#### 3.4.1 批量添加
+
+- 编写 service 和 dao 中相应的方法
+
+- 在调用 JdbcTemplate 对象里面 **batchUpdate** 方法实现批量操作
+
+  ![image-20230108002650570](imgs/Spring/image-20230108002650570.png)
+
+  两个参数：
+
+  - sql 语句
+  - List集合，添加多条记录数据
+
+##### 举例
+
+###### service
+
+![image-20230108003027145](imgs/Spring/image-20230108003027145.png)
+
+###### dao
+
+![image-20230108003128982](imgs/Spring/image-20230108003128982.png)
+
+#### 3.4.1 批量修改
+
+同上
+
+##### 举例
+
+###### dao
+
+![image-20230108003554324](imgs/Spring/image-20230108003554324.png)
+
+#### 3.4.2 批量删除
+
+同上
+
+##### 举例
+
+###### dao
+
+![image-20230108003916782](imgs/Spring/image-20230108003916782.png)
+
+###### test
+
+![image-20230108003944623](imgs/Spring/image-20230108003944623.png)
+
+## 4 事务
+
+事务——数据库操作基本单元，逻辑上的一组操作要么都成功，如果有一个失败所有操作都失败
+
+事务四个特性：
+
+原子性——要么成功，要么都失败
+
+一致性——数据有些值不变（如总量）
+
+隔离性——事务之间操作不影响
+
+持久性——提交后表中数据真正发生变化
+
+### 4.1 事务操作——搭建环境
+
+![image-20230110235403587](imgs/Spring/image-20230110235403587.png)
+
+1. 创建数据库表，添加记录
+
+   ![image-20230110235559095](imgs/Spring/image-20230110235559095.png)
+
+2. 创建service,搭建dao,完成对象创建和注入关系
+
+   service 注入 dao，在 dao 注入 JdbcTemplate，在 JdbcTemlate 注入 DataSource
+
+   ![image-20230111001819895](imgs/Spring/image-20230111001819895.png)
+
+3. 在 Dao 创建两个方法：多钱和少钱的方法，在service创建方法（转账的方法）
+
+4. 异常——模拟
+
+   ![image-20230111003129749](imgs/Spring/image-20230111003129749.png)
+
+   此时钱少了但没多，**因此需要事务**
+
+   
+
+### 4.2 事务操作——声明式
+
+1、建议事务在 Service 层中实现
+
+2、在Spring进行事务管理操附
+
+（1）有两种方式：编程式事务管理和**声明式事务管理**（使用）
+
+3、声明式事务管理
+（1）基于注解方式
+（2）基于Xml配置文件方式
+
+4、在 Spring 进行声明式事务管理，底层使用 **AOP**
+
+5、Spring 事务管理 API
+
+提供一个接口，代表事务管理器，这个接口针对不同的框架提供不同的实现类
+
+![image-20230111004033537](imgs/Spring/image-20230111004033537.png)
+
+#### 4.2.1 注解声明式事务管理
+
+1、创建事务管理器
+
+```XML
+<!--创建事务管理器-->
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"></property>
+</bean>
+```
+
+2、在spring配置文件，开启事务注解
+
+（1）在spring配置文件引入名称空间 tx
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+```
+
+（2）开启事务注解
+
+```xml
+<!--创建事务管理器-->
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <!--注入数据源-->
+    <property name="dataSource" ref="dataSource"></property>
+</bean>
+<!--开启事务注解-->
+<tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+```
+
+3、在 service 类上面（或者 service 类里面方法上面）添加事务注解
+
+（1）@Transactional，这个注解添加到类上面，也可以添加方法上面，
+（2）如果把这个注解添加类上面，这个类里面所有的方法都添加事务
+（3）如果把这个注解添加方法上面，为这个方法添加事务
+
+#### 4.2.2 声明式事务管理参数设置
+
+![image-20230111170241650](imgs/Spring/image-20230111170241650.png)
+
+##### 
+
+##### propagation：事务传播行为
+
+多事务方法直接进行调用，这个过程中事务是如何进行管理的
+
+Spring 定义了7种传播属性
+
+![image-20230111170309872](imgs/Spring/image-20230111170309872.png)
+
+1. REQUIRED
+
+   ![image-20230111170621383](imgs/Spring/image-20230111170621383.png)
+
+2. REQUIRED_NEW
+
+   ![image-20230111170811430](imgs/Spring/image-20230111170811430.png)
+
+   
+
+##### ioslation：事务隔离级别
+
+- 事务有特性成为隔离性，多事务操作之间不会产生影响。不考虑隔离性产生很多问题
+
+- 有三个读问题：脏读、不可重复读、虚（幻）读
+  - 脏读：一个未提交事务读取到另一个未提交事务的数据
+  - 不可重复读：—个未提交事务读取到另一提交事务修改数据
+  - 虚读：一个未提交事务读取到另一提交事务添加数据
+
+![image-20230111172506499](imgs/Spring/image-20230111172506499.png)
+
+```java
+@Service
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
+```
+
+##### timeout：超时时间
+
+事务需要在一定时间内进行提交，如果不提交进行回滚
+
+默认值是-1，设置时间以秒单位进行计算
+
+##### readOnly：是否只读
+
+读：查询操作，写：添加修改别除操作
+
+readOnly默认值alse,表示可以查询，可以添加修改删除操作
+
+设置readOnly值是true,设置成true之后，只能查询
+
+##### rollbackFor：回滚
+
+设置出现哪些异常进行事务回滚
+
+##### noRollbackFor：不回滚
+
+设置出现哪些异常不进行事务回滚
+
+#### 4.2.3 xml 声明式事务管理（不咋用）
+
+##### 配置事务管理器
+
+```xml
+<!--创建事务管理器-->
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <!--注入数据源-->
+    <property name="dataSource" ref="dataSource"></property>
+</bean>
+```
+
+##### 配置通知
+
+```XML
+<!--配置通知-->
+    <tx:advice id="txadvice">
+        <tx:attributes>
+            <tx:method name="accountMoney" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+```
+
+##### 配置切入点和切耐
+
+```xml
+<!--配置切入点和切面-->
+    <aop:config>
+        <!--配置切入点-->
+        <aop:pointcut id="pt" expression="execution(* com.spring.affair.service.UserService.*(..))"/>
+        <!--配置切面-->
+        <aop:advisor advice-ref="txadvice" pointcut-ref="pt"/>
+    </aop:config>
+```
+
+#### 4.2.4 完全注解方式
+
+```java
+@Configuration
+@ComponentScan(basePackages = "com.spring")
+@EnableTransactionManagement  // 开启事务
+public class TxConfig {
+    // 创建数据库连接池
+    @Bean
+    public DruidDataSource getDruidDataSource(){
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql:///user_db");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root");
+        return null;
+    }
+}
+```
+
+![image-20230112011621800](imgs/Spring/image-20230112011621800.png)
+
+![image-20230112011633216](imgs/Spring/image-20230112011633216.png)
