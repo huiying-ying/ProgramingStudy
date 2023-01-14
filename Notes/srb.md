@@ -148,6 +148,8 @@ idealU-2020.2.3:
 
 ## Mybatis-Plus快速入门
 
+#### 基本使用流程
+
 1、创建数据库
 
 ![image-20230114194936394](imgs/srb/image-20230114194936394.png)
@@ -262,8 +264,4 @@ spring.datasource.password=suxujia520
 mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
 ```
 
-Mapper通用
-
-![image-20230114232024612](imgs/srb/image-20230114232024612.png) 
-
-![image-20230114232446927](imgs/srb/image-20230114232446927.png)
+#### 
