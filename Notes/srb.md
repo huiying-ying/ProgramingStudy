@@ -264,4 +264,22 @@ spring.datasource.password=suxujia520
 mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
 ```
 
-#### 
+#### Mapper通用
+
+##### 增
+
+![image-20230114232024612](imgs/srb/image-20230114232024612.png)
+
+##### 查 
+
+![image-20230114232446927](imgs/srb/image-20230114232446927.png)
+
+##### 改
+
+![image-20230114233358784](imgs/srb/image-20230114233358784.png)
+
+##### 删
+
+![image-20230114233318031](imgs/srb/image-20230114233318031.png)
+
+#### Service通用
