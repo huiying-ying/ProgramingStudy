@@ -251,3 +251,19 @@ class MybatisPlusApplicationTests {
 ```
 
 补充、查看 Sql 输出日志
+
+```properties
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/mybatisplus?serverTimezone-GMT%2B8&characterEncoding-utf-8
+spring.datasource.username=root
+spring.datasource.password=suxujia520
+
+#mybatis日志
+mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+```
+
+Mapper通用
+
+![image-20230114232024612](imgs/srb/image-20230114232024612.png) 
+
+![image-20230114232446927](imgs/srb/image-20230114232446927.png)
