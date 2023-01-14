@@ -283,3 +283,19 @@ mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
 ![image-20230114233318031](imgs/srb/image-20230114233318031.png)
 
 #### Service通用
+
+##### 创建service接口和实现
+
+![image-20230115000445764](imgs/srb/image-20230115000445764.png)
+
+![image-20230115000742173](imgs/srb/image-20230115000742173.png)
+
+##### 测试实例
+
+![image-20230115000344110](imgs/srb/image-20230115000344110.png)
+
+![image-20230115000411014](imgs/srb/image-20230115000411014.png)
+
+###### 附：简便操作设置
+
+![image-20230115000541399](imgs/srb/image-20230115000541399.png)
