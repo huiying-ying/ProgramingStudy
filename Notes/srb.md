@@ -181,10 +181,48 @@ url
 
 5、创建实体类
 
+```java
+package com.project.mybatisplus.entity;
+
+import lombok.Data;
+
+@Data
+public class User {
+    private Long id;
+    private String name;
+    private Integer age;
+    private  String email;
+
+}
+```
+
 6、创mapper接口
+
+```java
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.project.mybatisplus.entity.User;
+
+public interface UserMapper extends BaseMapper<User>{
+    
+}
+```
 
 7、启动类添加注解
 
+启动类中针对mapper添加扫描注解
+
 8、测试
+
+针对UserMapper只有接口而无实现类这一点，有两种解决办法
+
+第一种方式——障眼法（用Autowired注入，通过加@Repository注解骗过scan）
+
+![image-20230114224547200](imgs/srb/image-20230114224547200.png)
+
+![image-20230114224822199](imgs/srb/image-20230114224822199.png)
+
+第二种更专业——用@Resource注入（j2EE）
+
+![image-20230114224927219](imgs/srb/image-20230114224927219.png)
 
 补充、查看 Sql 输出日志
