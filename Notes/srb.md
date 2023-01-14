@@ -299,3 +299,57 @@ mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
 ###### 附：简便操作设置
 
 ![image-20230115000541399](imgs/srb/image-20230115000541399.png)
+
+#### 自定义Mapper
+
+当通用Mapper无法满足我们的需求时，我们可以自定义基于Mapper接口的xml文件，并在xml文件中配置SOL语句
+
+##### 接口方法定义
+
+在UserMapper接口中定义如下方法
+
+```java
+ List<User> selectAllByName(String name);
+```
+
+##### 创建xml文件
+
+resources目录下创建mapper文件夹，注意xml文件命名和Mapper一样
+
+xml 配置完全同 MyBatis
+
+![image-20230115003409978](imgs/srb/image-20230115003409978.png)
+
+进阶版
+
+![image-20230115003654553](imgs/srb/image-20230115003654553.png)
+
+##### 测试
+
+![image-20230115004245608](imgs/srb/image-20230115004245608.png)
+
+#### 自定义Service
+
+##### 添加接口方法
+
+```java
+List<User> listAllByName(String name);
+```
+
+##### 实现接口方法
+
+
+
+另一种更简洁的方法
+
+![image-20230115004837808](imgs/srb/image-20230115004837808.png)
+
+##### 测试
+
+![image-20230115004748985](imgs/srb/image-20230115004748985.png)
+
+#### 常用注解
+
+![image-20230115005223351](imgs/srb/image-20230115005223351.png)
+
+![image-20230115005448834](imgs/srb/image-20230115005448834.png)
