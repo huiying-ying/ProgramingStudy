@@ -567,8 +567,82 @@ User checkLoginByParam(@Param("username") String username, @Param("password") St
 
 #### 查询一个实体类对象
 
+- 可以通过实体类对象接收
+- 可以通过ist集合接附
+- 可以通过map集合接收
+
 ![image-20230115225013918](imgs/Mybatis/image-20230115225013918.png)
+
+##### 查询单条数据转为map集合
+
+![image-20230115234813332](imgs/Mybatis/image-20230115234813332.png)
+
+![image-20230115235054309](imgs/Mybatis/image-20230115235054309.png)
+
+![image-20230115234857102](imgs/Mybatis/image-20230115234857102.png)
 
 #### 查询多个实体类对象
 
 ![image-20230115230342840](imgs/Mybatis/image-20230115230342840.png)
+
+- a>可以通过实体类类型的 List 集合接收
+- b>可以通过map类型的 List 集合接收
+- c>可以在napper接口的方法上添加@MapKey注解，此时就可以将每条数据转换的map集合作为值
+
+注意：一定不能通过实体类对象接收，此时会抛异常TooManyResultsException
+
+##### 查询多条数据转为map集合
+
+
+
+![image-20230115235343142](imgs/Mybatis/image-20230115235343142.png)
+
+或者
+
+![image-20230115235510409](imgs/Mybatis/image-20230115235510409.png)
+
+# 6 特殊SQL的执行
+
+### 模糊查询
+
+![image-20230116000107234](imgs/Mybatis/image-20230116000107234.png)
+
+用 **$** 不出错
+
+![image-20230116000617363](imgs/Mybatis/image-20230116000617363.png)
+
+或者拼接
+
+![image-20230116000759256](imgs/Mybatis/image-20230116000759256.png)
+
+第三种（最常用）
+
+![image-20230116001105871](imgs/Mybatis/image-20230116001105871.png)
+
+### 批量删除
+
+sql 语句中只有使用 **$** 才能正确删除
+
+![image-20230116001222701](imgs/Mybatis/image-20230116001222701.png)
+
+例子
+
+![image-20230116001312319](imgs/Mybatis/image-20230116001312319.png)
+
+![image-20230116001631615](imgs/Mybatis/image-20230116001631615.png)
+
+![image-20230116001457267](imgs/Mybatis/image-20230116001457267.png)
+
+### 动态设置表名
+
+sql 语句中只有使用 **$** 才能正确
+
+![image-20230116001858606](imgs/Mybatis/image-20230116001858606.png)
+
+例子
+
+![image-20230116002006099](imgs/Mybatis/image-20230116002006099.png)
+
+![image-20230116002238755](imgs/Mybatis/image-20230116002238755.png)
+
+### 添加功能获取自增的主键
