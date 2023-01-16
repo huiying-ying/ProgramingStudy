@@ -148,6 +148,10 @@ idealU-2020.2.3:
 
 ## Mybatis-Plus快速入门
 
+#### 参考文档
+
+[简介 | MyBatis-Plus (baomidou.com)](https://baomidou.com/pages/24112f/#特性)
+
 #### 基本使用流程
 
 1、创建数据库
@@ -530,3 +534,15 @@ step2：实体类中添加逻辑删除属性
 默认 0 表示没删，1表示删了 ，如果想自由设置，那就
 
 ![image-20230115185229648](imgs/srb/image-20230115185229648.png)
+
+#### 分页插件
+
+1、添加配置类
+
+ 创建config包，创建MybatisPlusConfig类
+
+![image-20230116123238577](imgs/srb/image-20230116123238577.png)
+
+测试
+
+![image-20230116123419078](imgs/srb/image-20230116123419078.png)
