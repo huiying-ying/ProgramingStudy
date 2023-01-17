@@ -702,3 +702,12 @@ LambdaQueryWrapper：用于Lambda语法使用的查i间Wrapper
 
 但上述方法容易引起sql注入，建议在mapper.xml文件中直接写sql语句，通过传递参数完成
 
+在 **条件优先级测试** 的基础上，进行改进
+
+第一步：将 Wrapper 语句改为更新的 Wrapper 语句
+
+![image-20230117155302677](imgs/srb/image-20230117155302677.png)
+
+第二步：直接将更新语句组装在一起，然后在更新这一步**把 user 设置为 null**
+
+![image-20230117155724551](imgs/srb/image-20230117155724551.png)
