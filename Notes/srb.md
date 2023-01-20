@@ -96,7 +96,7 @@ idealU-2020.2.3:
 
 # 1 项目介绍和前端知识
 
-## 基础知识
+## 1.1 基础知识
 
 1、银行系
 
@@ -117,7 +117,7 @@ idealU-2020.2.3:
   程度高；收益率高，投资收益率具有吸引力。
 - 劣势：风险偏高，资本实力及风控能力偏弱，跑路及倒闭的高发区。
 
-## 业务流程
+## 1.2 业务流程
 
 ![image-20230114192354304](imgs/srb/image-20230114192354304.png)
 
@@ -146,7 +146,7 @@ idealU-2020.2.3:
 说明：由于我们是教学使用，无法申请到正式的资金托管平台的支特，所以我们根据资金托管平台P接口文档，自行开发模
 拟一套API接口来满足业务需要，业务过程与实际开发基本一致。
 
-## Mybatis-Plus快速入门
+## 1.3 Mybatis-Plus快速入门
 
 #### 参考文档
 
@@ -752,7 +752,7 @@ condition 版本的
 
 ![image-20230117222527818](imgs/srb/image-20230117222527818.png)
 
-## 前端开发
+## 1.4 前端开发
 
 ### 准备——VsCode
 
@@ -1701,9 +1701,404 @@ export{star, sing}
     </html>
 ```
 
+测试用户全名的计算和拆分
+
+```html
+<IDOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+            <title>Document</title>
+        </head>
+        <body>
+            <div id="app"> 
+                姓: <input type="text" v-model='firstname'/>
+                名: <input type="text" v-model='lastname'/>
+                全名: {{fullname}}
+                <input type="text" v-model="fullname"/>
+            </div>
+            <script src="vue.js"></script>
+            <script>
+                new Vue({
+                    el:'#app', // 使用css3选择器语法，指定element元素
+                    data() {          // 对象类型
+                        return{
+                            firstname: 'sherry',
+                            lastname: 'kang',
+                            fullname:'',
+                        }
+                    },
+
+                    computed: {
+                        fullname(){
+                            console.log('fullname属性被计算')
+                            return this.firstname + this.lastname
+                        },
+                    },
+                })
+            </script>
+        </body>
+    </html>
+```
+
+拆分
+
+![image-20230120111429900](imgs/srb/image-20230120111429900.png)
+
+#### 监视
+
+仅仅是以下部分替换了上面的 compute 部分，达到同样的效果
+
+![image-20230120112136139](imgs/srb/image-20230120112136139.png)
+
+#### 条件渲染
+
+v-if 和 v-else
+
+![image-20230120113344858](imgs/srb/image-20230120113344858.png)
+
+#### 列表渲染
+
+![image-20230120114315093](imgs/srb/image-20230120114315093.png)
+
+#### 生命周期函数
+
+创建过程 & 渲染过程
+
+![image-20230120115911034](imgs/srb/image-20230120115911034.png)
+
+#### 综合案例
+
+第一步：整体框架为展示用户数据，在页面初始化过程，即创建过程展示数据
+
+![image-20230120115833236](imgs/srb/image-20230120115833236.png)
+
+第二步：获取数据
+
+![image-20230120120316621](imgs/srb/image-20230120120316621.png)
+
+第二步：列表渲染
+
+![image-20230120120431186](imgs/srb/image-20230120120431186.png)
+
+### Vue UI 组件库
+
+#### 常用组件库
+
+1、Mint Ul
+主页：http://mint-ui.github.io/#!/zh-cn
+说明：饿了么开源的基于升Vue的**移动端**UI组件库
+
+2、Element-Ul
+主页：[Element - 网站快速成型工具](https://element.eleme.cn/#/zh-CN)
+说明：饿了么开源的基于Vue的**PC端**UI组件库
+
+#### 使用
+
+其中**样式放在头部**，**组件库**要放在引入 **vue.js 之后**
+
+```html
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+```
+
+### Vue Router
+
+引入vue-router.js
+
+#### 路由和锚点
+
+路由——动态加载相应内容
+
+锚点——快速定位当前页面中的相应内容
+
+# 2 项目基本功能的实现
+
+## 2.1 创建尚融宝接口工程
+
+#### 创建项目基本结构
+
+##### 创建项目
+
+删除 src 目录，在 pom.xml 文件中添加相应依赖
+
+先修改 springboot 版本
+
+```xml
+	<parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.4.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+```
+
+然后 增加 properties
+
+```xml
+<properties>
+        <java.version>1.8</java.version>
+        <spring-cloud-alibaba.version>2.2.2.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <velocity.version>2.0</velocity.version>
+        <swagger.version>2.9.2</swagger.version>
+        <swagger-bootstrap-ui.version>1.9.2</swagger-bootstrap-ui.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <commons-fileupload.version>1.3.1</commons-fileupload.version>
+        <commons-io.version>2.6</commons-io.version>
+        <alibaba.easyexcel.version>2.1.1</alibaba.easyexcel.version>
+        <apache.xmlbeans.version>3.1.0</apache.xmlbeans.version>
+        <fastjson.version>1.2.28</fastjson.version>
+        <gson.version>2.8.2</gson.version>
+        <json.version>20170516</json.version>
+        <aliyun-java-sdk-core.version>4.3.3</aliyun-java-sdk-core.version>
+        <aliyun-sdk-oss.version>3.10.2</aliyun-sdk-oss.version>
+        <jodatime.version>2.10.1</jodatime.version>
+        <jwt.version>0.7.0</jwt.version>
+        <httpclient.version>4.5.1</httpclient.version>
+    </properties>
+```
+
+增加依赖管理
+
+```xml
+<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--Spring Cloud Alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--mybatis-plus-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--mybatis-plus代码生成器-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--Mybat1sP1us代码生成器模板引擎-->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+            <!--swagger-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!--swagger ui-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!--swagger-bootstrap-ui-->
+<!--            <dependency>-->
+<!--                <groupId>com.github.xiaoymin</groupId>-->
+<!--                <artifactId>swagger-bootstrap-ui</artifactId>-->
+<!--                <version>${swagger-bootstrap-ui.version}</version>-->
+<!--            </dependency>-->
+            <!--commons-lang3-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <!--文件上传-->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+            </dependency>
+            <!--commons -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <!--exce1解析-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${alibaba.easyexcel.version}</version>
+            </dependency>
+            <!--exce1解折依赖-->
+            <dependency>
+                <groupId>org.apache.xmlbeans</groupId>
+                <artifactId>xmlbeans</artifactId>
+                <version>${apache.xmlbeans.version}</version>
+            </dependency>
+            <!--json-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.json</groupId>-->
+<!--                <artifactId>json</artifactId>-->
+<!--                <version>${json.version}</version>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+            <!--阿里云SDK远程调用-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-java-sdk-core.version}</version>
+            </dependency>
+            <!--阿里云文件管理-->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
+            </dependency>
+            <!--日期时间工具-->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${jodatime.version}</version>
+            </dependency>
+            <!--jwt工具-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+            <!--httpclient-->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+```
+
+##### 创建模块 guigu-common
+
+添加依赖
+
+```xml
+<dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--lombok用来简化实体类：需要安装lombok插件-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+```
+
+##### 创建模块 service-base
+
+#### 代码生成器
+
+```java
+package com.uestc.srb.core;
+
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import org.junit.Test;
+
+public class CodeGenerator {
+    @Test
+    public void genCode(){
+        // 1、创建代码生成器
+        AutoGenerator mpg = new AutoGenerator();
+
+        // 2、全局配置
+        GlobalConfig gc = new GlobalConfig();
+        String projectPath = System.getProperty("user.dir");
+        gc.setOutputDir(projectPath + "/src/main/java");
+        gc.setAuthor("Sherry");
+        gc.setOpen(false); //生成后是否打开资源管理器
+        gc.setServiceName("%sService");	//去掉Service接口的首字母I
+        gc.setIdType(IdType.AUTO); //主键策略
+        gc.setSwagger2(true);//开启Swagger2模式
+        mpg.setGlobalConfig(gc);
+
+        // 3、数据源配置
+        DataSourceConfig dsc = new DataSourceConfig();
+        dsc.setUrl("jdbc:mysql://localhost:3306/srb_core?serverTimezone=GMT%2B8&characterEncoding=utf-8");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+        dsc.setUsername("root");
+        dsc.setPassword("suxujia520");
+        dsc.setDbType(DbType.MYSQL);
+        mpg.setDataSource(dsc);
+
+        // 4、包配置
+        PackageConfig pc = new PackageConfig();
+        pc.setParent("com.uestc.srb.core");
+        pc.setEntity("pojo.entity"); //此对象与数据库表结构一一对应，通过 DAO 层向上传输数据源对象。
+        mpg.setPackageInfo(pc);
+
+        // 5、策略配置
+        StrategyConfig strategy = new StrategyConfig();
+        strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
+
+        strategy.setColumnNaming(NamingStrategy.underline_to_camel);//数据库表字段映射到实体的命名策略
+        strategy.setEntityLombokModel(true); // lombok
+        strategy.setLogicDeleteFieldName("is_deleted");//逻辑删除字段名
+        strategy.setEntityBooleanColumnRemoveIsPrefix(true);//去掉布尔值的is_前缀（确保tinyint(1)）
+        strategy.setRestControllerStyle(true); //restful api风格控制器
+        mpg.setStrategy(strategy);
+
+        // 6、执行
+        mpg.execute();
+    }
+}
+
+```
 
 
 
+## 2.2 积分等级CRUD
+
+### 2.2.1 积分等级接口的展示
+
+这里controller包含前端以及管理员后台的控制，为结构清晰，建立各自的文件夹存储。这里后台就是admin。
+
+当前的接口主要是展示一下积分等级数据表中的数据
+
+![image-20230120202242038](imgs/srb/image-20230120202242038.png)
+
+## 2.3 统一返回结果
+
+## 2.4 统一异常处理
+
+## 2.5 统一日志处理
 
 
 

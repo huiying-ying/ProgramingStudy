@@ -659,4 +659,139 @@ sql 语句中只有使用 **$** 才能正确
 
 # 7 自定义映射resultMap
 
-### resultMap:处理字段和属性的映射关系
+resultMap：处理字段和属性的映射关系
+
+#### 解决字段名和属性名不一致的情况
+
+- 为字段起别名，保持和属性名的一致
+
+  ![image-20230119170609063](imgs/Mybatis/image-20230119170609063.png)
+
+- 设置全局配置，将_自动映射为驼峰（在maybatis_config.xml中设置） 
+
+  ![image-20230120000939853](imgs/Mybatis/image-20230120000939853.png)
+
+- 通过 resultMap 设置自定义的映射关系（但要求需要把对象的所有属性都写明）
+
+  - id：唯一标识，不能重复
+
+  - type：设置映射关系中的实体类类型
+
+  - 子标签：
+
+    - id：设置主键的映射关系
+
+    - result：设置普通字段的映射关系
+
+  - 属性：
+
+    - property：设置映射关系中的属性名，必须是 type 属性所设置的实体类类型中的属性名
+    - column:：设置映射关系中的字段名，必须是 sql 语句查询出的字段名
+
+  ![image-20230120001235336](imgs/Mybatis/image-20230120001235336.png)
+
+#### 多对一映射
+
+##### 级联方式
+
+![image-20230120005208127](imgs/Mybatis/image-20230120005208127.png)
+
+##### association 处理多对一映射关系
+
+property：需要处理多对的映射关系的属性名
+javaType：该属性的类型
+
+![image-20230120005629400](imgs/Mybatis/image-20230120005629400.png)
+
+##### 分步查询（更常用）
+
+select：设置分步查询的sql的雕一标识(namespace.SQLId.或napper.接口的全类名，方法名)
+coLumn：设置分布查询的条件
+
+在各步骤的接口上定义方法
+
+![image-20230120012744138](imgs/Mybatis/image-20230120012744138.png)
+
+在映射文件中分步骤应用
+
+![image-20230120012617038](imgs/Mybatis/image-20230120012617038.png)
+
+##### 延迟加载
+
+分步查询的优点：可以实现**延迟加载**，但是必须在核心配置文件中设置全局配置信息：
+lazyLoadingEnabled：延迟加载的全局开关。当开启时，所有关联对象都会延迟加载（访问才去加载，不访问就不加载）
+aggressiveLazyLoading：当开启时，任何方法的调用都会加载该对象的所有属性。否则，每个属性会按需加载
+
+此时就可以实现**按需加载**，获取的数据是什么，就只会执行相应的sql。此时可通过 association 和 collection 中的 fetchType 属性设置当前的分步查间是否使用延迟加载，fetchType="lazy（延迟加载）eager（立即加载）。
+
+在开启全局延迟加载的情况下，通过 **fetchType** 设置部分内容立即加载
+
+**fetchType**：当**开启了全局的延迟加载之后**，可通过此属性**手动控制延迟加载**的效果
+
+![image-20230120014024017](imgs/Mybatis/image-20230120014024017.png)
+
+#### 一对多映射
+
+##### collection
+
+collection：处理一对多的映射关系
+ofType：表示该属性所对应的集合中存储数据额类型
+
+![image-20230120020223700](imgs/Mybatis/image-20230120020223700.png)
+
+![image-20230120020200549](imgs/Mybatis/image-20230120020200549.png)
+
+##### 分步查询
+
+DeptMapper 接口中
+
+![image-20230120020539698](imgs/Mybatis/image-20230120020539698.png)
+
+映射文件中
+
+![image-20230120020600208](imgs/Mybatis/image-20230120020600208.png)
+
+![image-20230120020736612](imgs/Mybatis/image-20230120020736612.png)
+
+EmpMapper 接口中
+
+![image-20230120020838209](imgs/Mybatis/image-20230120020838209.png)
+
+映射文件中
+
+![image-20230120021112938](imgs/Mybatis/image-20230120021112938.png)
+
+DeptMapper 中设置 select 语句，包含包名和方法名
+
+![image-20230120021214523](imgs/Mybatis/image-20230120021214523.png)
+
+再填上 resultMap 的 id
+
+# 8 动态SQL
+
+Mybatis框架的动态SQL技术是一种根据特定条件动态拼装SQL语句的功能，它存在的意义是为了解决拼接SQL语句字符串时的痛点问题。
+
+## if
+
+if 标签可通过test属性的表达式进行判断，若表达式的结果为true,则标签中的内容会执行：反之标签中的内容不会执行
+
+![image-20230120022806058](imgs/Mybatis/image-20230120022806058.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
