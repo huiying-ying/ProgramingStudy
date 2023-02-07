@@ -2,11 +2,19 @@
 
 
 
+#### Linux
 
+linux 删除文件夹
 
+```
+rm -rf /var/log/httpd
+```
 
+在windows上控制传输文件到linux上
 
-
+```
+scp -r redis-7.0.5.tar.gz root@dell-t640:/tools/
+```
 
 
 

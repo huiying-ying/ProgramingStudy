@@ -1818,7 +1818,9 @@ v-if 和 v-else
 
 # 2 项目基本功能的实现
 
-## 2.1 创建尚融宝接口工程
+## 2.1 后端接口工程搭建
+
+### 2.1.1 创建尚融宝接口工程
 
 #### 创建项目基本结构
 
@@ -2084,9 +2086,9 @@ public class CodeGenerator {
 
 
 
-## 2.2 积分等级CRUD
+### 2.1.2 积分等级CRUD
 
-### 2.2.1 积分等级接口的展示
+#### 2.2.1 积分等级接口的展示
 
 这里controller包含前端以及管理员后台的控制，为结构清晰，建立各自的文件夹存储。这里后台就是admin。
 
@@ -2094,11 +2096,271 @@ public class CodeGenerator {
 
 ![image-20230120202242038](imgs/srb/image-20230120202242038.png)
 
-## 2.3 统一返回结果
+#### 2.2.2 逻辑删除接口
 
-## 2.4 统一异常处理
+![image-20230121133320973](imgs/srb/image-20230121133320973.png)
 
-## 2.5 统一日志处理
+使用 postman 工具验证结果
+
+![image-20230121133232565](imgs/srb/image-20230121133232565.png)
+
+##### swagger 配置与使用——单元测试
+
+实体对象中 @ApiModel 和 @ApiModelProperty 等注释都是 swagger 依赖产生的
+
+###### 配置
+
+其中 Docket 是 swagger 文档类型
+
+![image-20230121141741227](imgs/srb/image-20230121141741227.png)
+
+###### 常用注释
+
+**实体类注解：**entity的实体类中可以添加一些自定义设置，例如：
+
+```java
+@ApiModelProperty(value = "创建时间", example = "2019-01-01 8:00:00")
+private LocalDateTime createTime;
+@ApiModelProperty(value = "更新时间", example = "2019-01-01 8:00:00")
+private LocalDateTime updateTime;
+```
+
+**controller注解：**
+
+定义在类上
+
+```java
+@Api(tags = "积分等级管理")
+```
+
+定义在方法上
+
+```java
+@ApiOperation("积分等级列表")
+```
+
+```java
+@ApiOperation(value = "根据id删除积分等级", notes = "逻辑删除")
+```
+
+定义在参数上
+
+```java
+@ApiParam(value = "数据id", required = true, example = "100")
+```
+
+针对**类**和**方法**的注释
+
+![image-20230121143502297](imgs/srb/image-20230121143502297.png)
+
+相应改变为
+
+![image-20230121143558082](imgs/srb/image-20230121143558082.png)
+
+针对**参数**的注释
+
+![image-20230121143858875](imgs/srb/image-20230121143858875.png)
+
+分组管理
+
+![image-20230121144641116](imgs/srb/image-20230121144641116.png)
+
+以及分组过滤
+
+![image-20230121145939875](imgs/srb/image-20230121145939875.png)
+
+当然这里要在相应的 Controller 设置
+
+![image-20230121150208349](imgs/srb/image-20230121150208349.png)
+
+文档描述（封装为方法，在需要的地方直接调用）
+
+![image-20230121150540306](imgs/srb/image-20230121150540306.png)
+
+### 2.1.3 统一返回结果
+
+![image-20230121163013580](imgs/srb/image-20230121163013580.png)
+
+其中 ResponseEnum 规定了响应码和响应消息的各种情况。
+
+@Getter 和 @ToString 两个定义了 @Data 的一部分，我们只需要用到这些即可。
+
+而 R 则设置的每次返回的值为自己，其中除了上述枚举中的响应码和响应消息，还有响应的返回数据，数据用 map 存储。
+
+### 2.1.4 统一异常处理
+
+思路
+
+目的：在控制台显示报错异常
+
+1. 捕获所有类型的异常
+
+   ![image-20230122150738299](imgs/srb/image-20230122150738299.png)
+
+2. 针对特定异常有特定的报错信息
+
+   ![image-20230122150932534](imgs/srb/image-20230122150932534.png)
+
+3. 自定义异常
+
+   各种具体的异常太多，因此可以自定义异常，捕捉某一类的异常（该异常必须继承**运行时异常 RuntimeException**）
+
+   针对数据库数据借款数目不能为空这一点距离，展示了自定义异常
+
+   ![image-20230122151031487](imgs/srb/image-20230122151031487.png)
+
+   ![image-20230122151007738](imgs/srb/image-20230122151007738.png)
+
+4. Assert 优化异常
+
+   ![image-20230122151155693](imgs/srb/image-20230122151155693.png)
+
+   ![image-20230122151318442](imgs/srb/image-20230122151318442.png)
+
+5. 分离Controller前的异常 和 业务层异常
+
+
+
+![image-20230122150559300](imgs/srb/image-20230122150559300.png)
+
+
+
+### 2.1.5 统一日志处理
+
+
+
+## 2.2 管理平台前端搭建
+
+#### 认识、学习npm
+
+NPM全称Node Package Manager，是Node.js包管理工具
+
+#### 运用模板搭建后台管理前端
+
+
+
+这里遇到一个问题是：前后端联调的时候，发现前端获取数据id时，最后两位变成0了，如果数据id较小就没有这个情况，猜测可能是前端代码运行时数据精度设置有问题，但不知道怎么改（因为雪花策略下生成的id都是比较大的数，不可避免）
+
+
+
+## 2.3 EasyExcel
+
+### 2.3.1 EasyExcel读写运用
+
+依赖
+
+```xml
+<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+```
+
+创建实体类
+
+```java
+package com.uestc.easyexcel.dto;
+
+import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class ExcelStudentDTO {
+//    @ExcelProperty("姓名")
+    private String name;
+
+//    @ExcelProperty("生日")
+    private Date birthday;
+
+//    @ExcelProperty("薪资")
+    private Double salary;
+}
+
+```
+
+创建测试类
+
+```java
+package com.uestc.easyexcel;
+
+import com.alibaba.excel.EasyExcel;
+import com.uestc.easyexcel.dto.ExcelStudentDTO;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class ExcelWriteTest {
+    @Test
+    public void simplekritexlsx(){
+        String fileName = "d:/excel/simpleWrite.xlsx"; //需要提前新建目录
+        // 这里 需要指定写用哪个class去写，然后写到第一个sheet，名字为模板 然后文件流会自动关闭
+        EasyExcel.write(fileName, ExcelStudentDTO.class).sheet("模板").doWrite(data());
+    }
+    //辅助方法
+    private List<ExcelStudentDTO> data() {
+        List<ExcelStudentDTO> list = new ArrayList<>();
+        //算上标题，做多可写65536行
+        //超出：java.lang.IllegalArgumentException: Invalid row number (65536) outside allowable range (0..65535)
+        for (int i = 0; i < 1; i++) {
+            ExcelStudentDTO data = new ExcelStudentDTO();
+            data.setName("Helen" + i);
+            data.setBirthday(new Date());
+            data.setSalary(123456.1234);
+            list.add(data);
+        }
+        return list;
+
+    }
+}
+
+```
+
+### 2.3.2 数据字典服务
+
+设计思路
+
+1. AdminDictController  
+
+   ![image-20230124124645910](imgs/srb/image-20230124124645910.png)
+
+   **AdminDictController**  设计请求端口参数为一个  **MultipartFile**  文件，这里还涉及把文件转换为输入流，以及伴随流的异常捕捉（try catch），当发送请求后
+
+2. DictService
+
+   AdminDictController  提供  DictService  服务，服务按照常规设置有一个接口和实现类，其中主要的方法  **importData**  完成输入流中的数据从 excel 文件中到内存的写入
+
+   ![image-20230124124755544](imgs/srb/image-20230124124755544.png)
+
+3. importData 
+
+   按照上述  easyexcel  的学习，需要有一个  ExcelDictDTO  对象与表中各列的数据相对应，以及面向该对象的监听器  ExcelDictDTOListener  ，有了监听器就可以执行  **EasyExcel.read**   实现写入数据
+
+   ![image-20230124124932945](imgs/srb/image-20230124124932945.png)
 
 
 
@@ -2108,29 +2370,424 @@ public class CodeGenerator {
 
 
 
+这里注意 .xml 文件想被找到需要设置
+
+在 pom 文件中
+
+```xml
+<build>
+        <!-- 项目打包时会将java目录中的*.xml文件也进行打包 -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
+```
+
+## 2.4 redis
+
+## 2.5 阿里云短信
+
+![image-20230125191805624](imgs/srb/image-20230125191805624.png)
+
+对于该配置有相应的设置
+
+![image-20230125194153791](imgs/srb/image-20230125194153791.png)
+
+这样设置可以自动弹出
+
+![image-20230125200337566](imgs/srb/image-20230125200337566.png)
+
+##### 测试设置
+
+如果依赖中的测试是这个
+
+![image-20230126171250237](imgs/srb/image-20230126171250237.png)
+
+而不是这个
+
+![image-20230126171400352](imgs/srb/image-20230126171400352.png)
+
+那就要写这个注解
+
+![image-20230126171557681](imgs/srb/image-20230126171557681.png)
+
+## 2.6 分布式文件传输储存（oss）
+
+## 2.7 单点登录——用户访问令牌
+
+## 2.7 考虑SOE的前端——综合服务端渲染（有利于爬虫）和客户端渲染（前后端分离）
+
+## 2.8 Nuxt学习
+
+目录文件设置与前端网址访问的关系
+
+![image-20230127141435778](imgs/srb/image-20230127141435778.png)
+
+嵌套路由
+
+![image-20230127182439231](imgs/srb/image-20230127182439231.png)
+
+## 2.9 用户注册
+
+![image-20230129003724545](imgs/srb/image-20230129003724545.png)
+
+UserinfoController移植
+
+![image-20230129003823137](imgs/srb/image-20230129003823137.png)
+
+这里泛型有个问题
+
+![image-20230129004146598](imgs/srb/image-20230129004146598.png)
+
+对用户信息的状态作如下更新
+
+![image-20230129005229471](imgs/srb/image-20230129005229471.png)
+
+还要设置UserInfoServiceImpl
+
+![image-20230129005329894](imgs/srb/image-20230129005329894.png)
+
+用户密码设置的部分需要引入MD5的java文件
+
+![image-20230129005624690](imgs/srb/image-20230129005624690.png)
+
+common这一部分实现了一些基础的验证功能，如手机号的正则
+
+![image-20230129010229263](imgs/srb/image-20230129010229263.png)
+
+## 用户登录
+
+访问令牌
+
+![image-20230129010518965](imgs/srb/image-20230129010518965.png)
+
+创建用户登录对象
+
+![image-20230129010819466](imgs/srb/image-20230129010819466.png)
+
+同样也是在UserInfoController中定义方法
+
+![image-20230129011126889](imgs/srb/image-20230129011126889.png)
+
+其中用到UserInfoServiceImpl中的login方法
+
+![image-20230129011551108](imgs/srb/image-20230129011551108.png)
+
+token是从请求头中获得
+
+![image-20230129183228689](imgs/srb/image-20230129183228689.png)
+
+## 2.10 会员分页列表显示
+
+创建用户信息查询对象
+
+![image-20230129184443791](imgs/srb/image-20230129184443791.png)
+
+创建后台用户信息控制器
+
+![image-20230129184750150](imgs/srb/image-20230129184750150.png)
+
+以及在其实现类中设置
+
+![image-20230129185313284](imgs/srb/image-20230129185313284.png)
+
+日期格式化（针对LocalDateTime的解决方案，可以移植到其他地方接着使用）
+
+![image-20230129185910920](imgs/srb/image-20230129185910920.png)
+
+需要个性化设置时可以采用如下方法
+
+![image-20230129190322670](imgs/srb/image-20230129190322670.png)
+
+会员日志显示
+
+![image-20230129194907972](imgs/srb/image-20230129194907972.png)
+
+# 4 业务核心代码实现
+
+## 4.1 账户绑定——涉及与汇付宝的接口交互
+
+该方法可实现  **从原数据对象拷贝到目标数据对象上，其中两个对象的属性名对应相同**
+
+![image-20230202174117841](imgs/srb/image-20230202174117841.png)
 
 
 
+最后进行优化——事务处理
 
+添加@Transaction注解，保护数据绑定整个流程
 
+## 4.2 申请借款额度
 
+### 需求
 
+![image-20230204010311811](imgs/srb/image-20230204010311811.png)
 
+### 数据库关系
 
+涉及 integral_grade，borrower，borrower_attach，user_info
 
+borrower-borrower_attach   一对多
 
+borrower-user_info   一对一
 
+user_intergral 存 user_info 中积分历史明细
 
+### 步骤
 
+#### 借款人申请提交
 
+前端需要提供步骤一的申请表单，涉及表单字典中的数据展示和前端交互数据打包返回，以及一些凭证附件的存储。
 
+从前端获取借款人请求报头中的账号信息（token）以及借款人对象的信息（通过前端填写表单提交）
 
+![image-20230204162935384](imgs/srb/image-20230204162935384.png)
 
+借款人服务接口创建方法保存借款人至数据库
 
+![image-20230204163045901](imgs/srb/image-20230204163045901.png)
 
+在实现类中编写具体方法
 
+![image-20230204163218824](imgs/srb/image-20230204163218824.png)
 
+同样利用BeanUtils.copyProperties方法完成borrowerVO对象到borrower对象的对应属性赋值，同时根据userId将userInfo表中的其他信息也复制到borrower表；
 
+对于借款人所上传的图片附件，一个一个地放在borrowerAttach表中；
 
+更新user_info表中的会员状态
 
+#### 获取借款人认证状态
 
+前端需要在提交申请之后跳转至步骤二审批中，以及通过查询借款人借款审核状态返回结果到页面。
+
+在borrowerController中创建方法
+
+![image-20230204164941670](imgs/srb/image-20230204164941670.png)
+
+在service接口中创建方法并用实现类实现
+
+查询借款人表中有没有这个账号，有的话返回借款申请、审批状态
+
+![image-20230204165216101](imgs/srb/image-20230204165216101.png)
+
+## 4.3 借款额度审核
+
+### 步骤
+
+#### 搜索借款人对象
+
+![image-20230204165925308](imgs/srb/image-20230204165925308.png)
+
+在服务实现类中查询关键字返回数据
+
+![image-20230204170426438](imgs/srb/image-20230204170426438.png)
+
+#### 借款人详情展示
+
+首先要有BorrowerDetailVO，其中包含借款人具体信息，以及BorrowerAttachVO，其中包含借款人上传的各个附件的信息
+
+![image-20230204171331513](imgs/srb/image-20230204171331513.png)
+
+在controller中创建展示的方法（需要前端传来借款人id）
+
+![image-20230204171410247](imgs/srb/image-20230204171410247.png)
+
+以及在service实现类中的数据库交互
+
+```java
+  @Override
+    public BorrowerDetailVO getBorrowerDetailVOById(Long id) {
+    //获取借款人信息
+    Borrower borrower = baseMapper.selectById(id);
+
+    //填充基本借款人信息
+    BorrowerDetailVO borrowerDetailVO = new BorrowerDetailVO();
+    BeanUtils.copyProperties(borrower,borrowerDetailVO);
+
+    //婚否
+    borrowerDetailVO.setMarry(borrower.getMarry()?"是":"否");
+
+    //男女
+    borrowerDetailVO.setSex(borrower.getSex()==1?"男":"女");
+
+    //下拉列表
+    borrowerDetailVO.setEducation(dictService.getNameByParentDictCodeAndValue("education",borrower.getEducation()));
+    borrowerDetailVO.setIndustry(dictService.getNameByParentDictCodeAndValue("industry",borrower.getIndustry()));
+    borrowerDetailVO.setIncome(dictService.getNameByParentDictCodeAndValue("income",borrower.getIncome()));
+    borrowerDetailVO.setReturnSource(dictService.getNameByParentDictCodeAndValue("returnSource",borrower.getReturnSource()));
+    borrowerDetailVO.setContactsRelation(dictService.getNameByParentDictCodeAndValue("relation",borrower.getContactsRelation()));
+
+    //审批状态
+    String status = BorrowerStatusEnum.getMsgByStatus(borrower.getStatus());
+    borrowerDetailVO.setStatus(status);
+    
+    //附件列表
+    List<BorrowerAttachVO> borrowerAttachVOList =  borrowerAttachService.selectBorrowerAttachVOList(id);
+    borrowerDetailVO.setBorrowerAttachVOList(borrowerAttachVOList);
+
+    return borrowerDetailVO;
+
+}
+```
+
+这里需要把borrower对象中的一些整型数据转换为实际意义的字符串存储在BorrowerDetailVO，因此在DictService中创建方法找
+
+![image-20230204172036537](imgs/srb/image-20230204172036537.png)
+
+以及同样的方式对附件们，在borrowerAttachService中创建方法把BorrowerAttach的list转化成BorrowerAttachVO的list
+
+![image-20230204173223446](imgs/srb/image-20230204173223446.png)
+
+#### 借款人审批
+
+先创建借款人审批对象BorrowerApprovalVO
+
+![image-20230204175317169](imgs/srb/image-20230204175317169.png)
+
+之后创建controller
+
+![image-20230204181000865](imgs/srb/image-20230204181000865.png)
+
+在BorrowerServiceImpl中进行后端与数据库的交互
+
+这里涉及用户积分明细userInteral的判断、计算和存储，以及把增加的积分值更新到user_info表中的interal字段
+
+还有修改borrower表的借款申请审核状态、修改user_info表中的借款申请审核状态
+
+```java
+@Resource
+private UserIntegralMapper userIntegralMapper;
+
+@Transactional(rollbackFor = Exception.class)
+@Override
+public void approval(BorrowerApprovalVO borrowerApprovalVO) {
+
+    //获取借款额度申请id
+    Long borrowerId = borrowerApprovalVO.getBorrowerId();
+
+    //获取借款额度申请对象
+    Borrower borrower = baseMapper.selectById(borrowerId);
+
+    //设置审核状态
+    borrower.setStatus(borrowerApprovalVO.getStatus());
+    baseMapper.updateById(borrower);
+
+    //获取用户id
+    Long userId = borrower.getUserId();
+    UserInfo userInfo = userInfoMapper.selectById(userId);
+
+    //用户的原始积分
+    Integer integral = userInfo.getIntegral();
+
+    //计算基本信息积分
+    UserIntegral userIntegral = new UserIntegral();
+    userIntegral.setUserId(userId);
+    userIntegral.setIntegral(borrowerApprovalVO.getInfoIntegral());
+    userIntegral.setContent("借款人基本信息");
+    userIntegralMapper.insert(userIntegral);
+
+    //身份证积分
+    int curIntegral = userInfo.getIntegral() + borrowerApprovalVO.getInfoIntegral();
+    if(borrowerApprovalVO.getIsIdCardOk()) {
+        curIntegral += IntegralEnum.BORROWER_IDCARD.getIntegral();
+        userIntegral = new UserIntegral();
+        userIntegral.setUserId(userId);
+        userIntegral.setIntegral(IntegralEnum.BORROWER_IDCARD.getIntegral());
+        userIntegral.setContent(IntegralEnum.BORROWER_IDCARD.getMsg());
+        userIntegralMapper.insert(userIntegral);
+    }
+
+    //房产积分
+    if(borrowerApprovalVO.getIsHouseOk()) {
+        curIntegral += IntegralEnum.BORROWER_HOUSE.getIntegral();
+        userIntegral = new UserIntegral();
+        userIntegral.setUserId(userId);
+        userIntegral.setIntegral(IntegralEnum.BORROWER_HOUSE.getIntegral());
+        userIntegral.setContent(IntegralEnum.BORROWER_HOUSE.getMsg());
+        userIntegralMapper.insert(userIntegral);
+    }
+
+    //车辆积分
+    if(borrowerApprovalVO.getIsCarOk()) {
+        curIntegral += IntegralEnum.BORROWER_CAR.getIntegral();
+        userIntegral = new UserIntegral();
+        userIntegral.setUserId(userId);
+        userIntegral.setIntegral(IntegralEnum.BORROWER_CAR.getIntegral());
+        userIntegral.setContent(IntegralEnum.BORROWER_CAR.getMsg());
+        userIntegralMapper.insert(userIntegral);
+    }
+
+    //设置用户总积分
+    userInfo.setIntegral(curIntegral);
+    //修改审核状态
+    userInfo.setBorrowAuthStatus(borrowerApprovalVO.getStatus());
+    userInfoMapper.updateById(userInfo);
+
+}
+```
+
+## 4.4 借款申请
+
+### 步骤
+
+#### 获取借款额度
+
+**baseMapper是在什么情况下使用的，本service的对应对象吗**
+
+查询时获取用户的积分，然后在积分表中找处于对应区间的记录，返回该区间的最大值，若找不到则返回0。
+
+#### 借款申请
+
+前端需要有一些填写表单的信息，以及展示可以申请的最大额度
+
+附：前端mounted方法是在浏览器中执行，可以直接获得token；如果是created的话是现在前端服务器执行，获取不到token，但nuxt可以在失败之后再在浏览器获取，所以虽然报错但也可以正常运行。
+
+##### 问题1
+
+![image-20230205105248253](imgs/srb/image-20230205105248253.png)
+
+服务实现类里边这个this为什么能够这个方法
+
+##### 问题2
+
+BigDecimal这个类是有divide方法吧，直接做算数的相关方法。
+
+#### 获取借款申请状态
+
+##### 问题
+
+为什么是获取第一条记录，如果历史上有多次申请，那记录是默认按时间远近来排的吗？
+
+## 4.5 借款审核
+
+### 借款详情
+
+前端明细的展示，可能涉及多个表，因此处理方式可以是创建一个新的VO对象，也可以是在原有表的基础上做扩展。
+
+这里展示在原有基础上做扩展的方法，其中涉及**关联查询**的步骤
+
+![image-20230205171739054](imgs/srb/image-20230205171739054.png)
+
+并在服务实现时调用创建列表，根据字典找到相对应的字符串内容并放入列表 
+
+![image-20230205173317145](imgs/srb/image-20230205173317145.png)
+
+##### build的作用
+
+![image-20230205173425322](imgs/srb/image-20230205173425322.png)
+
+xml文件不再resources目录下，不加的话不能成功打包。
+
+### 借款审批
+
+服务实现类中主要解决两个问题：
+
+1. 更改borrow_info中的status
+2. 创建新的标的到表lent中

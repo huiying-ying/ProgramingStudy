@@ -40,11 +40,11 @@ A. System Model and Assumptions
 
 B. 构建关联规则库
 
-在介绍了上述关于设备特征集的定义的前提下，我们着力探究设备特征之间，尤其是不同类型的特征之间的关系。基于MS-Aprior算法，我们找出满足最小支持度设置下的频繁项集。之后我们借鉴文献的方法，对关联规则进行排序。
-
-还要评分排序
+在介绍了上述关于设备特征集的定义的前提下，我们着力探究设备特征之间，尤其是不同类型的特征之间的关系。基于经典Aprior算法，我们找出满足支持度设置下的频繁项集。之后我们借鉴文献【A design failure pre-alarming system using score- and vote-based associative classification】的方法，对关联规则进行排序。我们首先考虑关联规则所含特征的丰富性，即关注左侧特征数量（LHS），在此基础上置信度和支持度被广泛认为是两个最重要的度量，这里我们采用两者的几何平均值对其进行排序。在左侧特征数量和两个重要度量的几何平均值都相等的情况下，我们利用升力值打破规则之间的平衡。
 
 
+
+**在代码实现部分，首先根据单个类型推断单个类型的，然后是两类推一类的，然后是两类推两类的，以次类推对推断规模进行排序。在上述每种推断规模下依据左侧特征数量、支持度与置信度的几何平均值、升力值进行排序。**
 
 C. 组装特征
 
@@ -65,6 +65,12 @@ D.预测分类
 
 
 ### 4 Simulation results
+
+选酒水这个作为数据集
+
+[SPMF: A Java Open-Source Data Mining Library (philippe-fournier-viger.com)](https://www.philippe-fournier-viger.com/spmf/index.php?link=datasets.php)
+
+![image-20230126010546961](imgs/thesis/image-20230126010546961.png)
 
 对比单一类型分类结果、多类型无权重分类结果、多类型按规则定权重分类结果
 

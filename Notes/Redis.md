@@ -64,6 +64,14 @@
 
 ## 2 安装
 
+解决 **致命错误：jemalloc/jemalloc.h** 的问题
+
+```
+make MALLOC=libc
+```
+
+
+
 ### 2.1 安装目录
 
 ###### /usr/local/bin
