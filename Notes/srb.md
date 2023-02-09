@@ -2791,3 +2791,5 @@ xml文件不再resources目录下，不加的话不能成功打包。
 
 1. 更改borrow_info中的status
 2. 创建新的标的到表lent中
+
+## 4.6 标的管理
